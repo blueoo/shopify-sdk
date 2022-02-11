@@ -20,6 +20,7 @@ public class ShopifyTransaction {
 	private String orderId;
 	private String kind;
 	private String gateway;
+	private String authorization;
 	@XmlElement(name = "parent_id")
 	private String parentId;
 	private String status;
@@ -119,4 +120,11 @@ public class ShopifyTransaction {
 		this.receipt = receipt;
 	}
 
+	public String getAuthorization() {
+		return authorization;
+	}
+
+	public void setAuthorization(String authorization) {
+		this.authorization = authorization;
+	}
 }
