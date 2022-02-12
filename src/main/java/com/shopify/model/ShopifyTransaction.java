@@ -124,7 +124,7 @@ public class ShopifyTransaction {
 		return authorization;
 	}
 
-	public void setAuthorization(String authorization) {
+	public void setAuthorization(final String authorization) {
 		this.authorization = authorization;
 	}
 }
