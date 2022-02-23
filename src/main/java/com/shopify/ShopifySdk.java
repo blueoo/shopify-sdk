@@ -1,10 +1,8 @@
 package com.shopify;
 
+import java.math.BigDecimal;
 import java.net.URI;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -172,6 +170,8 @@ public class ShopifySdk {
 	private static final String RETRY_FAILED_MESSAGE = "Request retry has failed.";
 	private static final String DEPRECATED_SHOPIFY_CALL_ERROR_MESSAGE = "Shopify call is deprecated. Please take note of the X-Shopify-API-Deprecated-Reason and correct the call.\nRequest Location of {}\nResponse Status Code of {}\nResponse Headers of:\n{}";
 	static final String GENERAL_ACCESS_TOKEN_EXCEPTION_MESSAGE = "There was a problem generating access token using shop subdomain of %s and authorization code of %s.";
+
+	private static final String REFUND_AMOUNT_LT_MAXIMUM_REFUNDABLE = "可退款金额不够，请检查退款金额是否填写正确！";
 
 	private static final Long DEFAULT_MAXIMUM_REQUEST_RETRY_TIMEOUT_IN_MILLISECONDS = 180000L;
 	private static final Long DEFAULT_MAXIMUM_REQUEST_RETRY_RANDOM_DELAY_IN_MILLISECONDS = 5000L;
@@ -874,6 +874,55 @@ public class ShopifySdk {
 		final ShopifyRefundRoot shopifyRefundRootResponse = response.readEntity(ShopifyRefundRoot.class);
 		return shopifyRefundRootResponse.getRefund();
 
+	}
+
+	/**
+	 * 指定金额进行退款
+	 * @param shopifyRefundCreationRequest
+	 * @return
+	 */
+	public ShopifyRefund refundMoney(final ShopifyRefundCreationRequest shopifyRefundCreationRequest) {
+		//获取所有可退款的交易流水
+		final ShopifyRefund calculatedShopifyRefund = calculateRefund(shopifyRefundCreationRequest);
+
+		List<ShopifyTransaction> shopifyTransactions = new ArrayList<>();
+		for (ShopifyTransaction transaction : calculatedShopifyRefund.getTransactions()) {
+			//待退款金额大于0，并且可退金额大于0
+			if (shopifyRefundCreationRequest.getAmount().compareTo(BigDecimal.ZERO) == 1
+					&& transaction.getMaximumRefundable().compareTo(BigDecimal.ZERO) == 1) {
+
+				transaction.setKind(REFUND_KIND);
+
+				//可退金额是否大于退款金额,这时需要设置退款金额，并且退出循环
+				if(transaction.getMaximumRefundable().compareTo(shopifyRefundCreationRequest.getAmount()) ==1) {
+					transaction.setAmount(shopifyRefundCreationRequest.getAmount());
+					shopifyRefundCreationRequest.setAmount(BigDecimal.ZERO);
+					shopifyTransactions.add(transaction);
+					break;
+				} else {
+					transaction.setAmount(transaction.getMaximumRefundable());
+					BigDecimal amount = shopifyRefundCreationRequest.getAmount().subtract(transaction.getMaximumRefundable());
+					shopifyRefundCreationRequest.setAmount(amount);
+				}
+
+				shopifyTransactions.add(transaction);
+			}
+		};
+
+		//如果退款金额还大于0，说明退款金额有问题，直接不让退，返回错误
+		if (shopifyRefundCreationRequest.getAmount().compareTo(BigDecimal.ZERO) == 1) {
+			throw new IllegalArgumentException(REFUND_AMOUNT_LT_MAXIMUM_REFUNDABLE);
+		} else {
+			calculatedShopifyRefund.setTransactions(shopifyTransactions);
+		}
+
+		final WebTarget path = buildOrdersEndpoint().path(shopifyRefundCreationRequest.getRequest().getOrderId())
+				.path(REFUNDS);
+		final ShopifyRefundRoot shopifyRefundRoot = new ShopifyRefundRoot();
+		shopifyRefundRoot.setRefund(calculatedShopifyRefund);
+		final Response response = post(path, shopifyRefundRoot);
+		final ShopifyRefundRoot shopifyRefundRootResponse = response.readEntity(ShopifyRefundRoot.class);
+		return shopifyRefundRootResponse.getRefund();
 	}
 
 	public ShopifyGiftCard createGiftCard(final ShopifyGiftCardCreationRequest shopifyGiftCardCreationRequest) {
