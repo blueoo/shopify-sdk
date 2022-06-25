@@ -38,6 +38,8 @@ public class ShopifyOrder {
 	private BigDecimal totalPrice;
 	@XmlElement(name = "subtotal_price")
 	private BigDecimal subtotalPrice;
+	@XmlElement(name = "total_tip_received")
+	private BigDecimal totalTipReceived;
 	@XmlElement(name = "total_weight")
 	private long totalWeight;
 	@XmlElement(name = "total_tax")
@@ -454,5 +456,13 @@ public class ShopifyOrder {
 
 	public void setRefunds(final List<ShopifyRefund> refunds) {
 		this.refunds = refunds;
+	}
+
+	public BigDecimal getTotalTipReceived() {
+		return totalTipReceived;
+	}
+
+	public void setTotalTipReceived(BigDecimal totalTipReceived) {
+		this.totalTipReceived = totalTipReceived;
 	}
 }

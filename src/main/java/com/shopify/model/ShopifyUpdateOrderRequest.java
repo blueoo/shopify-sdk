@@ -43,6 +43,19 @@ public class ShopifyUpdateOrderRequest {
 		private String orderId;
 		private final ShopifyOrder order = new ShopifyOrder();
 
+		public Steps(){
+			order.setLineItems(null);
+			order.setFulfillments(null);
+			order.setShippingAddress(null);
+			order.setBillingAddress(null);
+			order.setShippingAddress(null);
+			order.setShippingLines(null);
+			order.setTaxLines(null);
+			order.setNoteAttributes(null);
+			order.setRefunds(null);
+			order.setMetafields(null);
+		}
+
 		public String getOrderId() {
 			return orderId;
 		}
