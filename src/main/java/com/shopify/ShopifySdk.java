@@ -63,6 +63,7 @@ public class ShopifySdk {
 	static final String ACCESS_TOKEN = "access_token";
 	static final String PRODUCTS = "products";
 	static final String VARIANTS = "variants";
+	static final String WEBHOOKS = "webhooks";
 	static final String CUSTOM_COLLECTIONS = "custom_collections";
 	static final String RECURRING_APPLICATION_CHARGES = "recurring_application_charges";
 	static final String ORDERS = "orders";
@@ -659,8 +660,7 @@ public class ShopifySdk {
 		return shopifyOrderRootResponse.getOrder();
 	}
 
-	public ShopifyOrder updateOrderShippingAddress(
-			final ShopifyOrderShippingAddressUpdateRequest shopifyOrderUpdateRequest) {
+	public ShopifyOrder updateOrderShippingAddress(final ShopifyOrderShippingAddressUpdateRequest shopifyOrderUpdateRequest) {
 		final ShopifyOrderUpdateRoot shopifyOrderRoot = new ShopifyOrderUpdateRoot();
 		shopifyOrderRoot.setOrder(shopifyOrderUpdateRequest);
 		final Response response = put(buildOrdersEndpoint().path(shopifyOrderUpdateRequest.getId()), shopifyOrderRoot);
@@ -747,6 +747,22 @@ public class ShopifySdk {
 		return shopifyOrderRootResponse.getOrder();
 	}
 
+	public ShopifyWebhook createWebhook(final String topic, final String address) {
+		final ShopifyWebhookRoot shopifyWebhookRoot = new ShopifyWebhookRoot();
+		final ShopifyWebhook webhook = new ShopifyWebhook();
+		webhook.setTopic(topic);
+		webhook.setAddress(address);
+		shopifyWebhookRoot.setWebhook(webhook);
+		final Response response = post(getWebTarget().path(WEBHOOKS), shopifyWebhookRoot);
+		final ShopifyWebhookRoot createWebHookResponse = response.readEntity(ShopifyWebhookRoot.class);
+		return createWebHookResponse.getWebhook();
+	}
+
+	public boolean deleteWebHook(final String id) {
+		final Response response = delete(getWebTarget().path(WEBHOOKS).path(id));
+		return Status.OK.getStatusCode() == response.getStatus();
+	}
+
 	public Metafield createVariantMetafield(
 			final ShopifyVariantMetafieldCreationRequest shopifyVariantMetafieldCreationRequest) {
 		final MetafieldRoot metafieldRoot = new MetafieldRoot();
@@ -828,7 +844,6 @@ public class ShopifySdk {
 	/**
 	 * 指定金额进行退款
 	 * @param shopifyRefundCreationRequest
-	 * @return
 	 */
 	public ShopifyRefund refundMoney(final ShopifyRefundCreationRequest shopifyRefundCreationRequest) {
 		//获取所有可退款的交易流水
