@@ -54,6 +54,7 @@ public class ShopifyUpdateOrderRequest {
 			order.setNoteAttributes(null);
 			order.setRefunds(null);
 			order.setMetafields(null);
+			order.setDiscountCodes(null);
 		}
 
 		public String getOrderId() {

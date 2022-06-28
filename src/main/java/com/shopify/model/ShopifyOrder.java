@@ -105,6 +105,8 @@ public class ShopifyOrder {
 	private List<ShopifyAttribute> noteAttributes = new LinkedList<>();
 	private List<ShopifyRefund> refunds = new LinkedList<>();
 	private List<Metafield> metafields = new LinkedList<>();
+	@XmlElement(name = "discount_codes")
+	private List<ShopifyDiscountCode> discountCodes = new LinkedList<>();
 
 	public String getId() {
 		return id;
@@ -464,5 +466,13 @@ public class ShopifyOrder {
 
 	public void setTotalTipReceived(BigDecimal totalTipReceived) {
 		this.totalTipReceived = totalTipReceived;
+	}
+
+	public List<ShopifyDiscountCode> getDiscountCodes() {
+		return discountCodes;
+	}
+
+	public void setDiscountCodes(List<ShopifyDiscountCode> discountCodes) {
+		this.discountCodes = discountCodes;
 	}
 }
