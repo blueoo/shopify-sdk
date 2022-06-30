@@ -9,33 +9,46 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.shopify.model.adapters.EscapedStringAdapter;
 import com.shopify.model.adapters.InventoryPolicyAdapter;
+import com.shopify.model.adapters.InventoryPolicyDeserializer;
+import com.shopify.model.adapters.TagsJsonDeserializer;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ShopifyVariant {
 
 	private String id;
 	@XmlElement(name = "product_id")
+	@JsonProperty(value = "product_id")
 	private String productId;
 	@XmlJavaTypeAdapter(EscapedStringAdapter.class)
 	private String title;
 	private BigDecimal price;
 	@XmlElement(name = "compare_at_price")
+	@JsonProperty(value = "compare_at_price")
 	private BigDecimal compareAtPrice;
 	private String sku;
 	private String barcode;
 	private int position;
 	private long grams;
-	@XmlTransient
+	@XmlElement(name = "inventory_quantity")
+	@JsonProperty(value = "inventory_quantity")
 	private Long inventoryQuantity;
 	@XmlElement(name = "image_id")
+	@JsonProperty(value = "image_id")
 	private String imageId;
 	@XmlJavaTypeAdapter(InventoryPolicyAdapter.class)
 	@XmlElement(name = "inventory_policy")
+	@JsonProperty(value = "inventory_policy")
+	@JsonDeserialize(converter = InventoryPolicyDeserializer.class)
 	private InventoryPolicy inventoryPolicy;
 	@XmlElement(name = "inventory_management")
+	@JsonProperty(value = "inventory_management")
 	private String inventoryManagement;
 	@XmlJavaTypeAdapter(EscapedStringAdapter.class)
 	private String option1;
@@ -44,17 +57,21 @@ public class ShopifyVariant {
 	@XmlJavaTypeAdapter(EscapedStringAdapter.class)
 	private String option3;
 	@XmlElement(name = "fulfillment_service")
+	@JsonProperty(value = "fulfillment_service")
 	private String fulfillmentService;
 	@XmlElement(name = "requires_shipping")
+	@JsonProperty(value = "requires_shipping")
 	private boolean requiresShipping;
 	private boolean taxable;
 
 	@XmlElement(name = "inventory_item_id")
+	@JsonProperty(value = "inventory_item_id")
 	private String inventoryItemId;
 
 	private BigDecimal weight;
 
 	@XmlElement(name = "weight_unit")
+	@JsonProperty(value = "weight_unit")
 	@XmlJavaTypeAdapter(EscapedStringAdapter.class)
 	private String weightUnit;
 
@@ -137,7 +154,6 @@ public class ShopifyVariant {
 		return inventoryQuantity;
 	}
 
-	@XmlElement(name = "inventory_quantity")
 	public void setInventoryQuantity(final Long inventoryQuantity) {
 		this.inventoryQuantity = inventoryQuantity;
 	}

@@ -9,6 +9,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.shopify.model.adapters.TagsJsonDeserializer;
 import org.apache.commons.lang3.StringUtils;
 
 import com.shopify.model.adapters.EscapedStringAdapter;
@@ -16,6 +20,7 @@ import com.shopify.model.adapters.TagsAdapter;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ShopifyProduct {
 
 	private String id;
@@ -24,9 +29,11 @@ public class ShopifyProduct {
 	private String title;
 
 	@XmlElement(name = "product_type")
+	@JsonProperty(value = "product_type")
 	private String productType;
 
 	@XmlElement(name = "body_html")
+	@JsonProperty(value = "body_html")
 	@XmlJavaTypeAdapter(EscapedStringAdapter.class)
 	private String bodyHtml;
 
@@ -35,14 +42,17 @@ public class ShopifyProduct {
 
 	@XmlJavaTypeAdapter(TagsAdapter.class)
 	@XmlElement(name = "tags")
+	@JsonDeserialize(converter = TagsJsonDeserializer.class)
 	private Set<String> tags = new HashSet<>();
 
 	private List<Option> options = new LinkedList<>();
 
 	@XmlElement(name = "metafields_global_title_tag")
+	@JsonProperty(value = "metafields_global_title_tag")
 	private String metafieldsGlobalTitleTag;
 
 	@XmlElement(name = "metafields_global_description_tag")
+	@JsonProperty(value = "metafields_global_description_tag")
 	private String metafieldsGlobalDescriptionTag;
 
 	private List<Image> images = new LinkedList<>();
@@ -52,6 +62,7 @@ public class ShopifyProduct {
 	private List<ShopifyVariant> variants = new LinkedList<>();
 
 	@XmlElement(name = "published_at")
+	@JsonProperty(value = "published_at")
 	private String publishedAt;
 
 	private Boolean published;
@@ -61,6 +72,7 @@ public class ShopifyProduct {
 
 	@XmlJavaTypeAdapter(EscapedStringAdapter.class)
 	@XmlElement(name = "published_scope")
+	@JsonProperty(value = "published_scope")
 	private String publishedScope;
 
 	@XmlJavaTypeAdapter(EscapedStringAdapter.class)
