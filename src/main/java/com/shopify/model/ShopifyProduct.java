@@ -1,10 +1,6 @@
 package com.shopify.model;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -23,29 +19,52 @@ import com.shopify.model.adapters.TagsAdapter;
 public class ShopifyProduct {
 
 	private String id;
+
 	@XmlJavaTypeAdapter(EscapedStringAdapter.class)
 	private String title;
+
 	@XmlElement(name = "product_type")
 	private String productType;
+
 	@XmlElement(name = "body_html")
 	@XmlJavaTypeAdapter(EscapedStringAdapter.class)
 	private String bodyHtml;
+
 	@XmlJavaTypeAdapter(EscapedStringAdapter.class)
 	private String vendor;
+
 	@XmlJavaTypeAdapter(TagsAdapter.class)
 	@XmlElement(name = "tags")
 	private Set<String> tags = new HashSet<>();
+
 	private List<Option> options = new LinkedList<>();
+
 	@XmlElement(name = "metafields_global_title_tag")
 	private String metafieldsGlobalTitleTag;
+
 	@XmlElement(name = "metafields_global_description_tag")
 	private String metafieldsGlobalDescriptionTag;
+
 	private List<Image> images = new LinkedList<>();
+
 	private Image image;
+
 	private List<ShopifyVariant> variants = new LinkedList<>();
+
 	@XmlElement(name = "published_at")
 	private String publishedAt;
+
 	private Boolean published;
+
+	@XmlJavaTypeAdapter(EscapedStringAdapter.class)
+	private String handle;
+
+	@XmlJavaTypeAdapter(EscapedStringAdapter.class)
+	@XmlElement(name = "published_scope")
+	private String publishedScope;
+
+	@XmlJavaTypeAdapter(EscapedStringAdapter.class)
+	private String status;
 
 	public String getId() {
 		return id;
@@ -167,5 +186,29 @@ public class ShopifyProduct {
 			}
 		};
 		return options.stream().sorted(optionPositionCompartor).map(Option::getName).collect(Collectors.toList());
+	}
+
+	public String getHandle() {
+		return handle;
+	}
+
+	public void setHandle(String handle) {
+		this.handle = handle;
+	}
+
+	public String getPublishedScope() {
+		return publishedScope;
+	}
+
+	public void setPublishedScope(String publishedScope) {
+		this.publishedScope = publishedScope;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

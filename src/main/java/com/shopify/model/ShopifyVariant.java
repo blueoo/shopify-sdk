@@ -52,6 +52,12 @@ public class ShopifyVariant {
 	@XmlElement(name = "inventory_item_id")
 	private String inventoryItemId;
 
+	private BigDecimal weight;
+
+	@XmlElement(name = "weight_unit")
+	@XmlJavaTypeAdapter(EscapedStringAdapter.class)
+	private String weightUnit;
+
 	@XmlTransient
 	private long available;
 
@@ -224,4 +230,19 @@ public class ShopifyVariant {
 		this.available = available;
 	}
 
+	public BigDecimal getWeight() {
+		return weight;
+	}
+
+	public void setWeight(BigDecimal weight) {
+		this.weight = weight;
+	}
+
+	public String getWeightUnit() {
+		return weightUnit;
+	}
+
+	public void setWeightUnit(String weightUnit) {
+		this.weightUnit = weightUnit;
+	}
 }
