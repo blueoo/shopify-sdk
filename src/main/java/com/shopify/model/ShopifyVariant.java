@@ -75,9 +75,6 @@ public class ShopifyVariant {
 	@XmlJavaTypeAdapter(EscapedStringAdapter.class)
 	private String weightUnit;
 
-	@XmlTransient
-	private long available;
-
 	public String getId() {
 		return id;
 	}
@@ -236,14 +233,6 @@ public class ShopifyVariant {
 
 	public void setInventoryItemId(final String inventoryItemId) {
 		this.inventoryItemId = inventoryItemId;
-	}
-
-	public long getAvailable() {
-		return available;
-	}
-
-	public void setAvailable(final long available) {
-		this.available = available;
 	}
 
 	public BigDecimal getWeight() {

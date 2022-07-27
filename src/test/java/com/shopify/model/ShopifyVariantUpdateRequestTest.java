@@ -42,7 +42,7 @@ public class ShopifyVariantUpdateRequestTest {
 
 		final ShopifyVariantUpdateRequest actualShopifyVariantUpdateRequest = ShopifyVariantUpdateRequest.newBuilder()
 				.withCurrentShopifyVariant(currentShopifyVariant).withSamePrice().withSameCompareAtPrice().withSameSku()
-				.withSameBarcode().withSameWeight().withAvailable(SOME_CURRENT_QUANTITY).withSameFirstOption()
+				.withSameBarcode().withSameWeight().withSameWeightUnit().withInventoryQuantity(SOME_CURRENT_QUANTITY).withSameFirstOption()
 				.withSameSecondOption().withSameThirdOption().withSameImage().withSameInventoryManagement()
 				.withSameInventoryPolicy().withSameFulfillmentService().withSameRequiresShipping().withSameTaxable()
 				.withSameInventoryItemId().build();
@@ -57,7 +57,7 @@ public class ShopifyVariantUpdateRequestTest {
 		assertEquals(SOME_CURRENT_COMPARE_AT_PRICE_AMOUNT.toPlainString(),
 				actualShopifyVariant.getCompareAtPrice().toPlainString());
 		assertEquals(405, actualShopifyVariant.getGrams());
-		assertEquals(SOME_CURRENT_QUANTITY, actualShopifyVariant.getAvailable());
+		assertEquals(SOME_CURRENT_QUANTITY, java.util.Optional.ofNullable(actualShopifyVariant.getInventoryQuantity()));
 		assertEquals(SOME_CURRENT_FIRST_OPTION, actualShopifyVariant.getOption1());
 		assertEquals(SOME_CURRENT_SECOND_OPTION, actualShopifyVariant.getOption2());
 		assertEquals(SOME_CURRENT_THIRD_OPTION, actualShopifyVariant.getOption3());
@@ -76,7 +76,7 @@ public class ShopifyVariantUpdateRequestTest {
 		final ShopifyVariantUpdateRequest actualShopifyVariantUpdateRequest = ShopifyVariantUpdateRequest.newBuilder()
 				.withCurrentShopifyVariant(currentShopifyVariant).withPrice(SOME_NEW_PRICE_AMOUNT)
 				.withCompareAtPrice(SOME_NEW_COMPARE_AT_PRICE_AMOUNT).withSku(SOME_NEW_SKU)
-				.withBarcode(SOME_NEW_BARCODE).withWeight(SOME_NEW_GRAMS_AMOUNT).withAvailable(SOME_NEW_QUANTITY)
+				.withBarcode(SOME_NEW_BARCODE).withWeight(SOME_NEW_GRAMS_AMOUNT).withWeightUnit("g").withInventoryQuantity(SOME_NEW_QUANTITY)
 				.withFirstOption(SOME_NEW_FIRST_OPTION).withSecondOption(SOME_NEW_SECOND_OPTION)
 				.withThirdOption(SOME_NEW_THIRD_OPTION).withImageSource(SOME_NEW_IMAGE_SOURCE)
 				.withInventoryManagement(SOME_NEW_INVENTORY_MANAGEMENT).withInventoryPolicy(SOME_NEW_INVENTORY_POLICY)
@@ -94,7 +94,7 @@ public class ShopifyVariantUpdateRequestTest {
 		assertEquals(SOME_NEW_COMPARE_AT_PRICE_AMOUNT.toPlainString(),
 				actualShopifyVariant.getCompareAtPrice().toPlainString());
 		assertEquals(406, actualShopifyVariant.getGrams());
-		assertEquals(SOME_NEW_QUANTITY, actualShopifyVariant.getAvailable());
+		assertEquals(SOME_NEW_QUANTITY, java.util.Optional.ofNullable(actualShopifyVariant.getInventoryQuantity()));
 		assertEquals(SOME_NEW_FIRST_OPTION, actualShopifyVariant.getOption1());
 		assertEquals(SOME_NEW_SECOND_OPTION, actualShopifyVariant.getOption2());
 		assertEquals(SOME_NEW_THIRD_OPTION, actualShopifyVariant.getOption3());
@@ -114,7 +114,7 @@ public class ShopifyVariantUpdateRequestTest {
 		final ShopifyVariantUpdateRequest actualShopifyVariantUpdateRequest = ShopifyVariantUpdateRequest.newBuilder()
 				.withCurrentShopifyVariant(currentShopifyVariant).withPrice(SOME_NEW_PRICE_AMOUNT)
 				.withCompareAtPrice(SOME_NEW_COMPARE_AT_PRICE_AMOUNT).withSku(SOME_NEW_SKU)
-				.withBarcode(SOME_NEW_BARCODE).withWeight(SOME_NEW_GRAMS_AMOUNT).withAvailable(SOME_NEW_QUANTITY)
+				.withBarcode(SOME_NEW_BARCODE).withWeight(SOME_NEW_GRAMS_AMOUNT).withWeightUnit("g").withInventoryQuantity(SOME_NEW_QUANTITY)
 				.noFirstOption().noSecondOption().noThirdOption().noImage()
 				.withInventoryManagement(SOME_NEW_INVENTORY_MANAGEMENT).withInventoryPolicy(SOME_NEW_INVENTORY_POLICY)
 				.withFulfillmentService(SOME_NEW_FULFILLMENT_SERVICE).withRequiresShipping(false).withTaxable(false)
@@ -131,7 +131,7 @@ public class ShopifyVariantUpdateRequestTest {
 		assertEquals(SOME_NEW_COMPARE_AT_PRICE_AMOUNT.toPlainString(),
 				actualShopifyVariant.getCompareAtPrice().toPlainString());
 		assertEquals(406, actualShopifyVariant.getGrams());
-		assertEquals(SOME_NEW_QUANTITY, actualShopifyVariant.getAvailable());
+		assertEquals(SOME_NEW_QUANTITY, java.util.Optional.ofNullable(actualShopifyVariant.getInventoryQuantity()));
 		assertNull(actualShopifyVariant.getOption1());
 		assertNull(actualShopifyVariant.getOption2());
 		assertNull(actualShopifyVariant.getOption3());
@@ -146,7 +146,7 @@ public class ShopifyVariantUpdateRequestTest {
 		final ShopifyVariant currentShopifyVariant = ShopifyVariantCreationRequest.newBuilder()
 				.withPrice(SOME_CURRENT_PRICE_AMOUNT).withCompareAtPrice(SOME_CURRENT_COMPARE_AT_PRICE_AMOUNT)
 				.withSku(SOME_CURRENT_SKU).withBarcode(SOME_CURRENT_BARCODE).withWeight(SOME_CURRENT_GRAMS_AMOUNT)
-				.withAvailable(SOME_CURRENT_QUANTITY).withFirstOption(SOME_CURRENT_FIRST_OPTION)
+				.withWeightUnit("g").withInventoryQuantity(SOME_CURRENT_QUANTITY).withFirstOption(SOME_CURRENT_FIRST_OPTION)
 				.withSecondOption(SOME_CURRENT_SECOND_OPTION).withThirdOption(SOME_CURRENT_THIRD_OPTION)
 				.withImageSource(SOME_NEW_IMAGE_SOURCE).withDefaultInventoryManagement().withDefaultInventoryPolicy()
 				.withDefaultFulfillmentService().withRequiresShippingDefault().withTaxableDefault().build()

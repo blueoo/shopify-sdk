@@ -1,7 +1,6 @@
 package com.shopify.model;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public class ShopifyVariantCreationRequest implements ShopifyVariantRequest {
 
@@ -27,11 +26,15 @@ public class ShopifyVariantCreationRequest implements ShopifyVariantRequest {
 	}
 
 	public static interface WeightStep {
-		public AvailableStep withWeight(final BigDecimal weight);
+		public WeightUnitStep withWeight(final BigDecimal weight);
 	}
 
-	public static interface AvailableStep {
-		public FirstOptionStep withAvailable(final long available);
+	public static interface WeightUnitStep {
+		public InventoryQuantityStep withWeightUnit(final String weightUnit);
+	}
+
+	public static interface InventoryQuantityStep {
+		public FirstOptionStep withInventoryQuantity(final long available);
 	}
 
 	public static interface FirstOptionStep {
@@ -121,8 +124,8 @@ public class ShopifyVariantCreationRequest implements ShopifyVariantRequest {
 		this.imageSource = imageSource;
 	}
 
-	private static class Steps implements PriceStep, CompareAtPriceStep, SkuStep, BarcodeStep, WeightStep,
-			AvailableStep, FirstOptionStep, SecondOptionStep, ThirdOptionStep, ImageSourceStep, InventoryManagementStep,
+	private static class Steps implements PriceStep, CompareAtPriceStep, SkuStep, BarcodeStep, WeightStep, WeightUnitStep,
+			InventoryQuantityStep, FirstOptionStep, SecondOptionStep, ThirdOptionStep, ImageSourceStep, InventoryManagementStep,
 			InventoryPolicyStep, FulfillmentServiceStep, RequiresShippingStep, TaxableStep, BuildStep {
 		private static final String DEFAULT_INVENTORY_MANAGEMENT = "shopify";
 		private static final InventoryPolicy DEFAULT_INVENTORY_POLICY = InventoryPolicy.DENY;
@@ -173,15 +176,14 @@ public class ShopifyVariantCreationRequest implements ShopifyVariantRequest {
 		}
 
 		@Override
-		public FirstOptionStep withAvailable(final long available) {
-			shopifyVariant.setAvailable(available);
+		public FirstOptionStep withInventoryQuantity(final long quantity) {
+			shopifyVariant.setInventoryQuantity(quantity);
 			return this;
 		}
 
 		@Override
-		public AvailableStep withWeight(final BigDecimal weight) {
-			final long grams = weight.setScale(ZERO, RoundingMode.HALF_UP).longValueExact();
-			shopifyVariant.setGrams(grams);
+		public WeightUnitStep withWeight(final BigDecimal weight) {
+			shopifyVariant.setWeight(weight);
 			return this;
 		}
 
@@ -282,6 +284,12 @@ public class ShopifyVariantCreationRequest implements ShopifyVariantRequest {
 		@Override
 		public InventoryPolicyStep withDefaultInventoryManagement() {
 			shopifyVariant.setInventoryManagement(DEFAULT_INVENTORY_MANAGEMENT);
+			return this;
+		}
+
+		@Override
+		public InventoryQuantityStep withWeightUnit(String weightUnit) {
+			shopifyVariant.setWeightUnit(weightUnit);
 			return this;
 		}
 	}

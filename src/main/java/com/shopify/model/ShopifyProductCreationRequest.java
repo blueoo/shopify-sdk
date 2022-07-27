@@ -37,7 +37,11 @@ public class ShopifyProductCreationRequest implements ShopifyProductRequest {
 	}
 
 	public static interface VendorStep {
-		public TagsStep withVendor(final String vendor);
+		public HandleStep withVendor(final String vendor);
+	}
+
+	public static interface HandleStep {
+		public TagsStep withHandle(final String handle);
 	}
 
 	public static interface TagsStep {
@@ -95,9 +99,8 @@ public class ShopifyProductCreationRequest implements ShopifyProductRequest {
 		this.variantPositionToImagePosition = variantPositionToImagePosition;
 	}
 
-	private static class Steps implements TitleStep, MetafieldsGlobalTitleTagStep, MetafieldsGlobalDescriptionTagStep,
-			ProductTypeStep, BodyHtmlStep, VendorStep, TagsStep, SortedOptionNamesStep, ImageSourcesStep,
-			VariantCreationRequestsStep, PublishedStep, BuildStep {
+	private static class Steps implements TitleStep, MetafieldsGlobalTitleTagStep, MetafieldsGlobalDescriptionTagStep, ProductTypeStep, BodyHtmlStep, VendorStep, HandleStep, TagsStep,
+			SortedOptionNamesStep, ImageSourcesStep, VariantCreationRequestsStep, PublishedStep, BuildStep {
 
 		private final ShopifyProduct shopifyProduct = new ShopifyProduct();
 		private final Map<Integer, Integer> variantPositionToImagePosition = new HashMap<>();
@@ -175,8 +178,14 @@ public class ShopifyProductCreationRequest implements ShopifyProductRequest {
 		}
 
 		@Override
-		public TagsStep withVendor(final String vendor) {
+		public HandleStep withVendor(final String vendor) {
 			shopifyProduct.setVendor(vendor);
+			return this;
+		}
+
+		@Override
+		public TagsStep withHandle(final String handle) {
+			shopifyProduct.setHandle(handle);
 			return this;
 		}
 
@@ -193,7 +202,7 @@ public class ShopifyProductCreationRequest implements ShopifyProductRequest {
 		}
 
 		@Override
-		public MetafieldsGlobalTitleTagStep withTitle(final String title) {
+		public MetafieldsGlobalTitleTagStep withTitle(String title) {
 			shopifyProduct.setTitle(title);
 			return this;
 		}
@@ -216,6 +225,5 @@ public class ShopifyProductCreationRequest implements ShopifyProductRequest {
 			shopifyProduct.setPublishedAt(publishedAt);
 			return this;
 		}
-
 	}
 }

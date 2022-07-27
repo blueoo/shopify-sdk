@@ -1,7 +1,6 @@
 package com.shopify.model;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,13 +40,19 @@ public class ShopifyVariantUpdateRequest implements ShopifyVariantRequest {
 	}
 
 	public static interface WeightStep {
-		public AvailableStep withWeight(final BigDecimal weight);
+		public WeightUnitStep withWeight(final BigDecimal weight);
 
-		public AvailableStep withSameWeight();
+		public WeightUnitStep withSameWeight();
 	}
 
-	public static interface AvailableStep {
-		public FirstOptionStep withAvailable(final long quantity);
+	public static interface WeightUnitStep {
+		public withInventoryQuantityStep withWeightUnit(final String weightUnit);
+
+		public withInventoryQuantityStep withSameWeightUnit();
+	}
+
+	public static interface withInventoryQuantityStep {
+		public FirstOptionStep withInventoryQuantity(final long quantity);
 	}
 
 	public static interface FirstOptionStep {
@@ -154,7 +159,7 @@ public class ShopifyVariantUpdateRequest implements ShopifyVariantRequest {
 	}
 
 	private static class Steps implements CurrentShopifyVariantStep, PriceStep, CompareAtPriceStep, SkuStep,
-			BarcodeStep, WeightStep, AvailableStep, FirstOptionStep, SecondOptionStep, ThirdOptionStep, ImageSourceStep,
+			BarcodeStep, WeightStep, WeightUnitStep, withInventoryQuantityStep, FirstOptionStep, SecondOptionStep, ThirdOptionStep, ImageSourceStep,
 			InventoryManagementStep, InventoryPolicyStep, FulfillmentServiceStep, RequiresShippingStep, TaxableStep,
 			InventoryItemIdStep, BuildStep {
 		private static final int ZERO = 0;
@@ -223,16 +228,24 @@ public class ShopifyVariantUpdateRequest implements ShopifyVariantRequest {
 		}
 
 		@Override
-		public FirstOptionStep withAvailable(final long available) {
-			shopifyVariant.setAvailable(available);
+		public FirstOptionStep withInventoryQuantity(final long quantity) {
+			shopifyVariant.setInventoryQuantity(quantity);
 			return this;
 		}
 
 		@Override
-		public AvailableStep withWeight(final BigDecimal weight) {
-			final long grams = weight.setScale(ZERO, RoundingMode.HALF_UP).longValueExact();
-			if (doesNotEqual(shopifyVariant.getGrams(), grams)) {
-				shopifyVariant.setGrams(grams);
+		public WeightUnitStep withWeight(final BigDecimal weight) {
+			if (doesNotEqual(shopifyVariant.getWeight(), weight)) {
+				shopifyVariant.setWeight(weight);
+				changed = true;
+			}
+			return this;
+		}
+
+		@Override
+		public withInventoryQuantityStep withWeightUnit(String weightUnit) {
+			if (doesNotEqual(shopifyVariant.getWeightUnit(), weightUnit)) {
+				shopifyVariant.setWeightUnit(weightUnit);
 				changed = true;
 			}
 			return this;
@@ -382,7 +395,12 @@ public class ShopifyVariantUpdateRequest implements ShopifyVariantRequest {
 		}
 
 		@Override
-		public AvailableStep withSameWeight() {
+		public WeightUnitStep withSameWeight() {
+			return this;
+		}
+
+		@Override
+		public withInventoryQuantityStep withSameWeightUnit() {
 			return this;
 		}
 
@@ -418,6 +436,10 @@ public class ShopifyVariantUpdateRequest implements ShopifyVariantRequest {
 			return !StringUtils.equals(unescapedS1, unescapedS2);
 		}
 
+		private boolean doesNotEqual(final BigDecimal l1, final BigDecimal l2) {
+			return l1.compareTo(l2)==0;
+		}
+
 		private boolean doesNotEqual(final long l1, final long l2) {
 			return l1 != l2;
 		}
@@ -440,7 +462,6 @@ public class ShopifyVariantUpdateRequest implements ShopifyVariantRequest {
 		public BuildStep withSameInventoryItemId() {
 			return this;
 		}
-
 	}
 
 }

@@ -1112,14 +1112,14 @@ public class ShopifySdkTest {
 		final BigDecimal somePrice = BigDecimal.valueOf(42.11);
 		final ShopifyVariantCreationRequest shopifyVariantCreationRequest = ShopifyVariantCreationRequest.newBuilder()
 				.withPrice(somePrice).withCompareAtPrice(somePrice).withSku("ABC-123").withBarcode("XYZ-123")
-				.withWeight(somePrice).withAvailable(13).withFirstOption("Shoes").withSecondOption("Red")
+				.withWeight(somePrice).withWeightUnit("g").withInventoryQuantity(13).withFirstOption("Shoes").withSecondOption("Red")
 				.withThirdOption("Green").withImageSource("http://channelape.com/1.png")
 				.withDefaultInventoryManagement().withDefaultInventoryPolicy().withDefaultFulfillmentService()
 				.withRequiresShipping(true).withTaxable(true).build();
 		final ShopifyProductCreationRequest shopifyProductCreationRequest = ShopifyProductCreationRequest.newBuilder()
-				.withTitle("Some Product Title").withMetafieldsGlobalTitleTag("Some Metafields Global Title Tag")
-				.withProductType("Shoes").withBodyHtml("Some Description")
-				.withMetafieldsGlobalDescriptionTag("Some Metafields Tag").withVendor("Some Vendor")
+				.withTitle("Some Product Title").withMetafieldsGlobalTitleTag("")
+				.withProductType("Shoes").withBodyHtml("Some Description").withMetafieldsGlobalDescriptionTag("")
+				.withVendor("Some Vendor").withHandle("")
 				.withTags(Collections.emptySet()).withSortedOptionNames(Collections.emptyList())
 				.withImageSources(Arrays.asList("http://channelape.com/1.png", "http://channelape.com/2.png"))
 				.withVariantCreationRequests(Arrays.asList(shopifyVariantCreationRequest)).withPublished(true).build();
@@ -1128,10 +1128,6 @@ public class ShopifySdkTest {
 
 		assertEquals(shopifyProductCreationRequest.getRequest().getVendor(),
 				actualCreateRequestBody.getContent().get("product").get("vendor").asText());
-		assertEquals(shopifyProductCreationRequest.getRequest().getMetafieldsGlobalTitleTag(),
-				actualCreateRequestBody.getContent().get("product").get("metafields_global_title_tag").asText());
-		assertEquals(shopifyProductCreationRequest.getRequest().getMetafieldsGlobalDescriptionTag(),
-				actualCreateRequestBody.getContent().get("product").get("metafields_global_description_tag").asText());
 		assertEquals(shopifyProductCreationRequest.getRequest().getProductType(),
 				actualCreateRequestBody.getContent().get("product").get("product_type").asText());
 		assertEquals(shopifyProductCreationRequest.getRequest().getPublishedAt(),
@@ -1172,15 +1168,13 @@ public class ShopifySdkTest {
 				actualShopifyProduct.getImages().get(0).getPosition());
 		assertEquals(shopifyProduct.getImages().get(0).getSource(),
 				actualShopifyProduct.getImages().get(0).getSource());
-		assertEquals(shopifyProduct.getMetafieldsGlobalDescriptionTag(),
-				actualShopifyProduct.getMetafieldsGlobalDescriptionTag());
 		assertEquals(shopifyProduct.getProductType(), actualShopifyProduct.getProductType());
 		assertEquals(shopifyProduct.getPublishedAt(), actualShopifyProduct.getPublishedAt());
 		assertTrue(shopifyProduct.getTags().containsAll(actualShopifyProduct.getTags()));
 		assertEquals(shopifyProduct.getTitle(), actualShopifyProduct.getTitle());
 		assertEquals(shopifyProduct.getVariants().get(0).getId(), actualShopifyProduct.getVariants().get(0).getId());
-		assertEquals(shopifyProduct.getVariants().get(0).getAvailable(),
-				actualShopifyProduct.getVariants().get(0).getAvailable());
+		assertEquals(shopifyProduct.getVariants().get(0).getInventoryQuantity(),
+				actualShopifyProduct.getVariants().get(0).getInventoryQuantity());
 		assertEquals(shopifyProduct.getVariants().get(0).getOption1(),
 				actualShopifyProduct.getVariants().get(0).getOption1());
 		assertEquals(shopifyProduct.getVariants().get(0).getOption2(),
@@ -1215,8 +1209,6 @@ public class ShopifySdkTest {
 		shopifyProduct.setTitle("Some Title");
 		shopifyProduct.setVendor("Some Vendor");
 		shopifyProduct.setPublishedAt("2018-01-01T00:00:00");
-		shopifyProduct.setMetafieldsGlobalDescriptionTag("Some tags");
-		shopifyProduct.setMetafieldsGlobalTitleTag("some title tags");
 
 		final ShopifyVariant shopifyVariant = new ShopifyVariant();
 		shopifyVariant.setId("999");
@@ -1225,7 +1217,7 @@ public class ShopifySdkTest {
 		shopifyVariant.setImageId("1");
 		shopifyVariant.setPrice(BigDecimal.valueOf(42.11));
 		shopifyVariant.setGrams(12);
-		shopifyVariant.setAvailable(3L);
+		shopifyVariant.setInventoryQuantity(3L);
 		shopifyVariant.setRequiresShipping(true);
 		shopifyVariant.setTaxable(true);
 		shopifyVariant.setOption1("Red");
@@ -1257,17 +1249,13 @@ public class ShopifySdkTest {
 
 		final ShopifyProductUpdateRequest shopifyProductUpdateRequest = ShopifyProductUpdateRequest.newBuilder()
 				.withCurrentShopifyProduct(shopifyProduct).withSameTitle().withSameMetafieldsGlobalTitleTag()
-				.withSameProductType().withSameBodyHtml().withSameMetafieldsGlobalDescriptionTag().withSameVendor()
+				.withSameProductType().withSameBodyHtml().withSameMetafieldsGlobalDescriptionTag().withSameVendor().withSameHandle()
 				.withSameTags().withSameOptions().withSameImages().withSameVariants().withPublished(true).build();
 
 		final ShopifyProduct actualShopifyProduct = shopifySdk.updateProduct(shopifyProductUpdateRequest);
 
 		assertEquals(shopifyProduct.getVendor(),
 				actualCreateRequestBody.getContent().get("product").get("vendor").asText());
-		assertEquals(shopifyProduct.getMetafieldsGlobalTitleTag(),
-				actualCreateRequestBody.getContent().get("product").get("metafields_global_title_tag").asText());
-		assertEquals(shopifyProduct.getMetafieldsGlobalDescriptionTag(),
-				actualCreateRequestBody.getContent().get("product").get("metafields_global_description_tag").asText());
 		assertEquals(shopifyProduct.getProductType(),
 				actualCreateRequestBody.getContent().get("product").get("product_type").asText());
 		assertEquals(shopifyProduct.getPublishedAt(),
@@ -1308,8 +1296,6 @@ public class ShopifySdkTest {
 				actualShopifyProduct.getImages().get(0).getPosition());
 		assertEquals(shopifyProduct.getImages().get(0).getSource(),
 				actualShopifyProduct.getImages().get(0).getSource());
-		assertEquals(shopifyProduct.getMetafieldsGlobalDescriptionTag(),
-				actualShopifyProduct.getMetafieldsGlobalDescriptionTag());
 		assertEquals(shopifyProduct.getProductType(), actualShopifyProduct.getProductType());
 		assertEquals(shopifyProduct.getPublishedAt(), actualShopifyProduct.getPublishedAt());
 		assertTrue(shopifyProduct.getTags().containsAll(actualShopifyProduct.getTags()));
@@ -1419,8 +1405,6 @@ public class ShopifySdkTest {
 		shopifyProduct.setTitle("Some Title");
 		shopifyProduct.setVendor("Some Vendor");
 		shopifyProduct.setPublishedAt("2018-01-01T00:00:00");
-		shopifyProduct.setMetafieldsGlobalDescriptionTag("Some tags");
-		shopifyProduct.setMetafieldsGlobalTitleTag("some title tags");
 
 		final ShopifyVariant shopifyVariant = new ShopifyVariant();
 		shopifyVariant.setId("999");
@@ -1429,7 +1413,7 @@ public class ShopifySdkTest {
 		shopifyVariant.setImageId("1");
 		shopifyVariant.setPrice(BigDecimal.valueOf(42.11));
 		shopifyVariant.setGrams(12);
-		shopifyVariant.setAvailable(3L);
+		shopifyVariant.setInventoryQuantity(3L);
 		shopifyVariant.setRequiresShipping(true);
 		shopifyVariant.setTaxable(true);
 		shopifyVariant.setOption1("Red");
@@ -1462,8 +1446,6 @@ public class ShopifySdkTest {
 				actualShopifyProduct.getImages().get(0).getPosition());
 		assertEquals(shopifyProduct.getImages().get(0).getSource(),
 				actualShopifyProduct.getImages().get(0).getSource());
-		assertEquals(shopifyProduct.getMetafieldsGlobalDescriptionTag(),
-				actualShopifyProduct.getMetafieldsGlobalDescriptionTag());
 		assertEquals(shopifyProduct.getProductType(), actualShopifyProduct.getProductType());
 		assertEquals(shopifyProduct.getPublishedAt(), actualShopifyProduct.getPublishedAt());
 		assertTrue(shopifyProduct.getTags().containsAll(actualShopifyProduct.getTags()));
@@ -1864,7 +1846,7 @@ public class ShopifySdkTest {
 		shopifyVariant.setImageId("1");
 		shopifyVariant.setPrice(BigDecimal.valueOf(42.11));
 		shopifyVariant.setGrams(12);
-		shopifyVariant.setAvailable(3L);
+		shopifyVariant.setInventoryQuantity(3L);
 		shopifyVariant.setRequiresShipping(true);
 		shopifyVariant.setTaxable(true);
 		shopifyVariant.setOption1("Red");
@@ -1946,7 +1928,7 @@ public class ShopifySdkTest {
 		final String newBarcode = "459876235897";
 		final ShopifyVariantUpdateRequest shopifyVariantUpdateRequest = ShopifyVariantUpdateRequest.newBuilder()
 				.withCurrentShopifyVariant(currentShopifyVariant).withSamePrice().withSameCompareAtPrice().withSameSku()
-				.withBarcode(newBarcode).withSameWeight().withAvailable(20).withSameFirstOption().withSameSecondOption()
+				.withBarcode(newBarcode).withSameWeight().withSameWeightUnit().withInventoryQuantity(20).withSameFirstOption().withSameSecondOption()
 				.withSameThirdOption().withSameImage().withSameInventoryManagement().withSameInventoryPolicy()
 				.withSameFulfillmentService().withSameRequiresShipping().withSameTaxable().withSameInventoryItemId()
 				.build();
@@ -3390,7 +3372,7 @@ public class ShopifySdkTest {
 		final int pageSize = 200;
 		addProductsPageDriverExpectation("123", 200, 0, null);
 
-		final ShopifyPage<ShopifyProduct> actualShopifyProducts = shopifySdk.getProducts("123", pageSize);
+		final ShopifyPage<ShopifyProduct> actualShopifyProducts = shopifySdk.getProducts("123", pageSize, null);
 
 		assertNull(actualShopifyProducts.getNextPageInfo());
 		assertNull(actualShopifyProducts.getPreviousPageInfo());

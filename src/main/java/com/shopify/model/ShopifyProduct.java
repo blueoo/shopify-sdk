@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.shopify.model.adapters.TagsJsonDeserializer;
-import org.apache.commons.lang3.StringUtils;
 
 import com.shopify.model.adapters.EscapedStringAdapter;
 import com.shopify.model.adapters.TagsAdapter;
@@ -64,6 +63,14 @@ public class ShopifyProduct {
 	@XmlElement(name = "published_at")
 	@JsonProperty(value = "published_at")
 	private String publishedAt;
+
+	@XmlElement(name = "created_at")
+	@JsonProperty(value = "created_at")
+	private String createdAt;
+
+	@XmlElement(name = "updated_at")
+	@JsonProperty(value = "updated_at")
+	private String updatedAt;
 
 	private Boolean published;
 
@@ -183,7 +190,7 @@ public class ShopifyProduct {
 	}
 
 	public Boolean isPublished() {
-		return (published == null) ? StringUtils.isNotBlank(publishedAt) : published;
+		return (published == null) ? publishedAt==null : published;
 	}
 
 	public void setPublished(Boolean published) {
@@ -222,5 +229,21 @@ public class ShopifyProduct {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public String getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(String updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 }

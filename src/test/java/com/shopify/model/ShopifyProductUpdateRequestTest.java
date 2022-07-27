@@ -56,7 +56,7 @@ public class ShopifyProductUpdateRequestTest {
 		final String firstVariantThirdOptionValue = "24 ea";
 		final ShopifyVariantCreationRequest firstVariantCreationRequest = ShopifyVariantCreationRequest.newBuilder()
 				.withPrice(BigDecimal.TEN).withCompareAtPrice(BigDecimal.TEN).withSku(SOME_SKU)
-				.withBarcode(SOME_BARCODE).withWeight(BigDecimal.ZERO).withAvailable(SOME_QUANTITY)
+				.withBarcode(SOME_BARCODE).withWeight(BigDecimal.ZERO).withWeightUnit("g").withInventoryQuantity(SOME_QUANTITY)
 				.withFirstOption(firstVariantFirstOptionValue).withSecondOption(firstVariantSecondOptionValue)
 				.withThirdOption(firstVariantThirdOptionValue).noImageSource().withDefaultInventoryManagement()
 				.withDefaultInventoryPolicy().withDefaultFulfillmentService().withRequiresShippingDefault()
@@ -67,7 +67,7 @@ public class ShopifyProductUpdateRequestTest {
 		final String secondVariantThirdOptionValue = "11-t5";
 		final ShopifyVariantCreationRequest secondVariantCreationRequest = ShopifyVariantCreationRequest.newBuilder()
 				.withPrice(BigDecimal.TEN).withCompareAtPrice(BigDecimal.TEN).withSku(SOME_SKU)
-				.withBarcode(SOME_BARCODE).withWeight(BigDecimal.ZERO).withAvailable(SOME_QUANTITY)
+				.withBarcode(SOME_BARCODE).withWeight(BigDecimal.ZERO).withWeightUnit("g").withInventoryQuantity(SOME_QUANTITY)
 				.withFirstOption(secondVariantFirstOptionValue).withSecondOption(secondVariantSecondOptionValue)
 				.withThirdOption(secondVariantThirdOptionValue).noImageSource().withDefaultInventoryManagement()
 				.withDefaultInventoryPolicy().withDefaultFulfillmentService().withRequiresShippingDefault()
@@ -78,7 +78,7 @@ public class ShopifyProductUpdateRequestTest {
 		final String thirdVariantThirdOptionValue = "40 count";
 		final ShopifyVariantCreationRequest thirdVariantCreationRequest = ShopifyVariantCreationRequest.newBuilder()
 				.withPrice(BigDecimal.TEN).withCompareAtPrice(BigDecimal.TEN).withSku(SOME_SKU)
-				.withBarcode(SOME_BARCODE).withWeight(BigDecimal.ZERO).withAvailable(SOME_QUANTITY)
+				.withBarcode(SOME_BARCODE).withWeight(BigDecimal.ZERO).withWeightUnit("g").withInventoryQuantity(SOME_QUANTITY)
 				.withFirstOption(thirdVariantFirstOptionValue).withSecondOption(thirdVariantSecondOptionValue)
 				.withThirdOption(thirdVariantThirdOptionValue).noImageSource().withDefaultInventoryManagement()
 				.withDefaultInventoryPolicy().withDefaultFulfillmentService().withRequiresShippingDefault()
@@ -89,14 +89,11 @@ public class ShopifyProductUpdateRequestTest {
 
 		final ShopifyProductUpdateRequest actualShopifyProductUpdateRequest = ShopifyProductUpdateRequest.newBuilder()
 				.withCurrentShopifyProduct(currentShopifyProduct).withSameTitle().withSameMetafieldsGlobalTitleTag()
-				.withSameProductType().withSameBodyHtml().withSameMetafieldsGlobalDescriptionTag().withSameVendor()
+				.withSameProductType().withSameBodyHtml().withSameMetafieldsGlobalDescriptionTag().withSameVendor().withSameHandle()
 				.withSameTags().withSameOptions().withSameImages().withSameVariants().withPublished(true).build();
 
 		final ShopifyProduct actualShopifyProduct = actualShopifyProductUpdateRequest.getRequest();
 		assertEquals(SOME_CURRENT_TITLE, actualShopifyProduct.getTitle());
-		assertEquals(SOME_CURRENT_METAFIELDS_GLOBAL_TITLE_TAG, actualShopifyProduct.getMetafieldsGlobalTitleTag());
-		assertEquals(SOME_CURRENT_METAFIELDS_GLOBAL_DESCRIPTION_TAG,
-				actualShopifyProduct.getMetafieldsGlobalDescriptionTag());
 		assertEquals(SOME_CURRENT_BODY_HTML, actualShopifyProduct.getBodyHtml());
 		assertEquals(SOME_CURRENT_VENDOR, actualShopifyProduct.getVendor());
 		assertEquals(SOME_CURRENT_TAGS, actualShopifyProduct.getTags());
@@ -141,21 +138,21 @@ public class ShopifyProductUpdateRequestTest {
 	public void givenAllNewValuesSetAndUnpublishedWhenBuildingShopifyProductUpdateRequestThenExpectCorrectValues() {
 		final ShopifyVariantCreationRequest firstVariantCreationRequest = ShopifyVariantCreationRequest.newBuilder()
 				.withPrice(BigDecimal.TEN).withCompareAtPrice(BigDecimal.TEN).withSku(SOME_SKU)
-				.withBarcode(SOME_BARCODE).withWeight(BigDecimal.ZERO).withAvailable(SOME_QUANTITY)
+				.withBarcode(SOME_BARCODE).withWeight(BigDecimal.ZERO).withWeightUnit("g").withInventoryQuantity(SOME_QUANTITY)
 				.withFirstOption("Red").withSecondOption("Lemon").withThirdOption("24 ea").noImageSource()
 				.withDefaultInventoryManagement().withDefaultInventoryPolicy().withDefaultFulfillmentService()
 				.withRequiresShippingDefault().withTaxableDefault().build();
 
 		final ShopifyVariantCreationRequest secondVariantCreationRequest = ShopifyVariantCreationRequest.newBuilder()
 				.withPrice(BigDecimal.TEN).withCompareAtPrice(BigDecimal.TEN).withSku(SOME_SKU)
-				.withBarcode(SOME_BARCODE).withWeight(BigDecimal.ZERO).withAvailable(SOME_QUANTITY)
+				.withBarcode(SOME_BARCODE).withWeight(BigDecimal.ZERO).withWeightUnit("g").withInventoryQuantity(SOME_QUANTITY)
 				.withFirstOption("Green").withSecondOption("Strawberry").withThirdOption("11-t5").noImageSource()
 				.withDefaultInventoryManagement().withDefaultInventoryPolicy().withDefaultFulfillmentService()
 				.withRequiresShippingDefault().withTaxableDefault().build();
 
 		final ShopifyVariantCreationRequest thirdVariantCreationRequest = ShopifyVariantCreationRequest.newBuilder()
 				.withPrice(BigDecimal.TEN).withCompareAtPrice(BigDecimal.TEN).withSku(SOME_SKU)
-				.withBarcode(SOME_BARCODE).withWeight(BigDecimal.ZERO).withAvailable(SOME_QUANTITY)
+				.withBarcode(SOME_BARCODE).withWeight(BigDecimal.ZERO).withWeightUnit("g").withInventoryQuantity(SOME_QUANTITY)
 				.withFirstOption("Pink").withSecondOption("Watermelon").withThirdOption("40 count").noImageSource()
 				.withDefaultInventoryManagement().withDefaultInventoryPolicy().withDefaultFulfillmentService()
 				.withRequiresShippingDefault().withTaxableDefault().build();
@@ -165,14 +162,14 @@ public class ShopifyProductUpdateRequestTest {
 
 		final ShopifyVariantRequest firstNewShopifyVariantRequest = ShopifyVariantCreationRequest.newBuilder()
 				.withPrice(BigDecimal.TEN).withCompareAtPrice(BigDecimal.TEN).withSku(SOME_SKU)
-				.withBarcode(SOME_BARCODE).withWeight(BigDecimal.ZERO).withAvailable(SOME_QUANTITY)
+				.withBarcode(SOME_BARCODE).withWeight(BigDecimal.ZERO).withWeightUnit("g").withInventoryQuantity(SOME_QUANTITY)
 				.withFirstOption("Yellow").withSecondOption("Peach").withThirdOption("12 ea")
 				.withImageSource(SOME_FIRST_IMAGE_SOURCE).withDefaultInventoryManagement().withDefaultInventoryPolicy()
 				.withDefaultFulfillmentService().withRequiresShippingDefault().withTaxableDefault().build();
 
 		final ShopifyVariantRequest secondNewShopifyVariantRequest = ShopifyVariantUpdateRequest.newBuilder()
 				.withCurrentShopifyVariant(secondVariantCreationRequest.getRequest()).withSamePrice()
-				.withSameCompareAtPrice().withSameSku().withSameBarcode().withSameWeight().withAvailable(4L)
+				.withSameCompareAtPrice().withSameSku().withSameBarcode().withSameWeight().withSameWeightUnit().withInventoryQuantity(4L)
 				.withSameFirstOption().withSameSecondOption().withSameThirdOption().withImageSource("does not exist")
 				.withSameInventoryManagement().withSameInventoryPolicy().withSameFulfillmentService()
 				.withSameRequiresShipping().withSameTaxable().withSameInventoryItemId().build();
@@ -180,11 +177,9 @@ public class ShopifyProductUpdateRequestTest {
 		final List<ShopifyVariantRequest> variantRequests = Arrays.asList(firstNewShopifyVariantRequest,
 				secondNewShopifyVariantRequest);
 		final ShopifyProductUpdateRequest actualShopifyProductUpdateRequest = ShopifyProductUpdateRequest.newBuilder()
-				.withCurrentShopifyProduct(currentShopifyProduct).withTitle(SOME_NEW_TITLE)
-				.withMetafieldsGlobalTitleTag(SOME_NEW_METAFIELDS_GLOBAL_TITLE_TAG)
-				.withProductType(SOME_NEW_PRODUCT_TYPE).withBodyHtml(SOME_NEW_BODY_HTML)
-				.withMetafieldsGlobalDescriptionTag(SOME_NEW_METAFIELDS_GLOBAL_DESCRIPTION_TAG)
-				.withVendor(SOME_NEW_VENDOR).withTags(SOME_NEW_TAGS)
+				.withCurrentShopifyProduct(currentShopifyProduct).withTitle(SOME_NEW_TITLE).withMetafieldsGlobalTitleTag("")
+				.withProductType(SOME_NEW_PRODUCT_TYPE).withBodyHtml(SOME_NEW_BODY_HTML).withMetafieldsGlobalDescriptionTag("")
+				.withVendor(SOME_NEW_VENDOR).withSameHandle().withTags(SOME_NEW_TAGS)
 				.withSortedOptionNames(Arrays.asList(SOME_NEW_FIRST_OPTION_NAME, SOME_NEW_SECOND_OPTION_NAME,
 						SOME_NEW_THIRD_OPTION_NAME))
 				.withImageSources(Arrays.asList(SOME_FIRST_IMAGE_SOURCE)).withVariantRequests(variantRequests)
@@ -192,9 +187,6 @@ public class ShopifyProductUpdateRequestTest {
 
 		final ShopifyProduct actualShopifyProduct = actualShopifyProductUpdateRequest.getRequest();
 		assertEquals(SOME_NEW_TITLE, actualShopifyProduct.getTitle());
-		assertEquals(SOME_NEW_METAFIELDS_GLOBAL_TITLE_TAG, actualShopifyProduct.getMetafieldsGlobalTitleTag());
-		assertEquals(SOME_NEW_METAFIELDS_GLOBAL_DESCRIPTION_TAG,
-				actualShopifyProduct.getMetafieldsGlobalDescriptionTag());
 		assertEquals(SOME_NEW_BODY_HTML, actualShopifyProduct.getBodyHtml());
 		assertEquals(SOME_NEW_VENDOR, actualShopifyProduct.getVendor());
 		assertEquals(SOME_NEW_TAGS, actualShopifyProduct.getTags());
@@ -236,10 +228,10 @@ public class ShopifyProductUpdateRequestTest {
 			final ShopifyVariantCreationRequest secondVariantCreationRequest,
 			final ShopifyVariantCreationRequest thirdVariantCreationRequest) {
 		final ShopifyProduct currentShopifyProduct = ShopifyProductCreationRequest.newBuilder()
-				.withTitle(SOME_CURRENT_TITLE).withMetafieldsGlobalTitleTag(SOME_CURRENT_METAFIELDS_GLOBAL_TITLE_TAG)
+				.withTitle(SOME_CURRENT_TITLE).withMetafieldsGlobalTitleTag("")
 				.withProductType(SOME_CURRENT_PRODUCT_TYPE).withBodyHtml(SOME_CURRENT_BODY_HTML)
-				.withMetafieldsGlobalDescriptionTag(SOME_CURRENT_METAFIELDS_GLOBAL_DESCRIPTION_TAG)
-				.withVendor(SOME_CURRENT_VENDOR).withTags(SOME_CURRENT_TAGS)
+				.withMetafieldsGlobalDescriptionTag("")
+				.withVendor(SOME_CURRENT_VENDOR).withHandle("").withTags(SOME_CURRENT_TAGS)
 				.withSortedOptionNames(Arrays.asList(SOME_CURRENT_FIRST_OPTION_NAME, SOME_CURRENT_SECOND_OPTION_NAME,
 						SOME_CURRENT_THIRD_OPTION_NAME))
 				.withImageSources(Collections.emptyList()).withVariantCreationRequests(Arrays

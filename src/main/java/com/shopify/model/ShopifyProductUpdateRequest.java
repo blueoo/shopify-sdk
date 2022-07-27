@@ -57,9 +57,15 @@ public class ShopifyProductUpdateRequest implements ShopifyProductRequest {
 	}
 
 	public static interface VendorStep {
-		public TagsStep withVendor(final String vendor);
+		public HandleStep withVendor(final String vendor);
 
-		public TagsStep withSameVendor();
+		public HandleStep withSameVendor();
+	}
+
+	public static interface HandleStep {
+		public TagsStep withHandle(final String handle);
+
+		public TagsStep withSameHandle();
 	}
 
 	public static interface TagsStep {
@@ -88,6 +94,8 @@ public class ShopifyProductUpdateRequest implements ShopifyProductRequest {
 
 	public static interface PublishedStep {
 		public BuildStep withPublished(final boolean published);
+
+		public BuildStep withSamePublished();
 	}
 
 	public static interface BuildStep {
@@ -125,8 +133,8 @@ public class ShopifyProductUpdateRequest implements ShopifyProductRequest {
 		this.changed = changed;
 	}
 
-	private static class Steps implements CurrentShopifyProductStep, TitleStep, MetafieldsGlobalTitleTagStep,
-			MetafieldsGlobalDescriptionTagStep, ProductTypeStep, BodyHtmlStep, VendorStep, TagsStep,
+	private static class Steps implements CurrentShopifyProductStep, TitleStep,MetafieldsGlobalTitleTagStep,
+			MetafieldsGlobalDescriptionTagStep, ProductTypeStep, BodyHtmlStep, VendorStep, HandleStep, TagsStep,
 			SortedOptionNamesStep, ImageSourcesStep, VariantUpdateRequestsStep, PublishedStep, BuildStep {
 
 		private ShopifyProduct shopifyProduct;
@@ -144,6 +152,11 @@ public class ShopifyProductUpdateRequest implements ShopifyProductRequest {
 
 		@Override
 		public PublishedStep withVariantRequests(final List<ShopifyVariantRequest> variantRequests) {
+			//如果强制设置为null了，就不修改这个字段
+			if ( null == shopifyProduct.getVariants()) {
+				return this;
+			}
+
 			if (variantRequests.size() != shopifyProduct.getVariants().size()) {
 				changed = true;
 			}
@@ -203,6 +216,11 @@ public class ShopifyProductUpdateRequest implements ShopifyProductRequest {
 
 		@Override
 		public VariantUpdateRequestsStep withImageSources(final List<String> imageSources) {
+			//如果强制设置为null了，就不修改这个字段
+			if ( null == shopifyProduct.getImages()) {
+				return this;
+			}
+
 			final List<String> currentImageSources = shopifyProduct.getImages().stream()
 					.sorted((Image i1, Image i2) -> Integer.compare(i1.getPosition(), i2.getPosition()))
 					.map(Image::getSource).collect(Collectors.toList());
@@ -227,11 +245,17 @@ public class ShopifyProductUpdateRequest implements ShopifyProductRequest {
 			}
 
 			shopifyProduct.setImages(images);
+
 			return this;
 		}
 
 		@Override
 		public ImageSourcesStep withSortedOptionNames(final List<String> sortedOptionNames) {
+			//如果强制设置为null了，就不修改这个字段
+			if ( null == shopifyProduct.getOptions()) {
+				return this;
+			}
+
 			if (doesNotEqual(new HashSet<>(sortedOptionNames), new HashSet<>(shopifyProduct.getSortedOptionNames()))) {
 				final List<Option> options = new ArrayList<>(sortedOptionNames.size());
 				for (int i = 0; i < sortedOptionNames.size(); i++) {
@@ -250,6 +274,11 @@ public class ShopifyProductUpdateRequest implements ShopifyProductRequest {
 
 		@Override
 		public SortedOptionNamesStep withTags(final Set<String> tags) {
+			//如果强制设置为null了，就不修改这个字段
+			if ( null == shopifyProduct.getTags()) {
+				return this;
+			}
+
 			if (doesNotEqual(tags, shopifyProduct.getTags())) {
 				shopifyProduct.setTags(tags);
 				changed = true;
@@ -258,9 +287,18 @@ public class ShopifyProductUpdateRequest implements ShopifyProductRequest {
 		}
 
 		@Override
-		public TagsStep withVendor(final String vendor) {
+		public HandleStep withVendor(final String vendor) {
 			if (doesNotEqual(vendor, shopifyProduct.getVendor())) {
 				shopifyProduct.setVendor(vendor);
+				changed = true;
+			}
+			return this;
+		}
+
+		@Override
+		public TagsStep withHandle(String handle) {
+			if (doesNotEqual(handle, shopifyProduct.getHandle())) {
+				shopifyProduct.setHandle(handle);
 				changed = true;
 			}
 			return this;
@@ -303,6 +341,11 @@ public class ShopifyProductUpdateRequest implements ShopifyProductRequest {
 		}
 
 		@Override
+		public VendorStep withSameMetafieldsGlobalDescriptionTag() {
+			return this;
+		}
+
+		@Override
 		public ProductTypeStep withMetafieldsGlobalTitleTag(String metafieldsGlobalTitleTag) {
 			if (doesNotEqual(metafieldsGlobalTitleTag, shopifyProduct.getMetafieldsGlobalTitleTag())) {
 				shopifyProduct.setMetafieldsGlobalTitleTag(metafieldsGlobalTitleTag);
@@ -319,6 +362,11 @@ public class ShopifyProductUpdateRequest implements ShopifyProductRequest {
 				shopifyProduct.setPublished(published);
 				changed = true;
 			}
+			return this;
+		}
+
+		@Override
+		public BuildStep withSamePublished() {
 			return this;
 		}
 
@@ -349,7 +397,7 @@ public class ShopifyProductUpdateRequest implements ShopifyProductRequest {
 		}
 
 		@Override
-		public TagsStep withSameVendor() {
+		public HandleStep withSameVendor() {
 			return this;
 		}
 
@@ -374,7 +422,7 @@ public class ShopifyProductUpdateRequest implements ShopifyProductRequest {
 		}
 
 		@Override
-		public VendorStep withSameMetafieldsGlobalDescriptionTag() {
+		public TagsStep withSameHandle() {
 			return this;
 		}
 
@@ -387,6 +435,7 @@ public class ShopifyProductUpdateRequest implements ShopifyProductRequest {
 		private boolean doesNotEqual(final Set<String> s1, final Set<String> s2) {
 			return !s1.equals(s2);
 		}
+
 
 	}
 }

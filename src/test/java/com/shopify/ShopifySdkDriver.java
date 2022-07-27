@@ -459,16 +459,16 @@ public class ShopifySdkDriver {
 					final String imageSource = imageSources.get(currentShopifyVariant.getPosition() - 1);
 					return ShopifyVariantUpdateRequest.newBuilder().withCurrentShopifyVariant(currentShopifyVariant)
 							.withPrice(new BigDecimal(new Random().nextDouble() * 100)).withSameCompareAtPrice()
-							.withSameSku().withSameBarcode().withSameWeight().withAvailable(4L).withSameFirstOption()
+							.withSameSku().withSameBarcode().withSameWeight().withSameWeightUnit().withInventoryQuantity(4L).withSameFirstOption()
 							.withSameSecondOption().withSameThirdOption().withImageSource(imageSource)
 							.withSameInventoryManagement().withSameInventoryPolicy().withSameFulfillmentService()
 							.withSameRequiresShipping().withSameTaxable().withSameInventoryItemId().build();
 				}).collect(Collectors.toList());
 
 		final ShopifyProductUpdateRequest shopifyProductUpdateRequest = ShopifyProductUpdateRequest.newBuilder()
-				.withCurrentShopifyProduct(currentShopifyProduct).withTitle(expectedTitle)
-				.withSameMetafieldsGlobalTitleTag().withSameProductType().withBodyHtml(expectedBodyHtml)
-				.withSameMetafieldsGlobalDescriptionTag().withSameVendor().withSameTags().withSameOptions()
+				.withCurrentShopifyProduct(currentShopifyProduct).withTitle(expectedTitle).withMetafieldsGlobalTitleTag("")
+				.withSameProductType().withBodyHtml(expectedBodyHtml).withSameMetafieldsGlobalDescriptionTag()
+				.withSameVendor().withSameHandle().withSameTags().withSameOptions()
 				.withImageSources(imageSources).withVariantRequests(variantRequests).withPublished(true).build();
 
 		final ShopifyProduct updatedShopifyProduct = shopifySdk.updateProduct(shopifyProductUpdateRequest);
