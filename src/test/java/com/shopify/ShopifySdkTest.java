@@ -820,6 +820,8 @@ public class ShopifySdkTest {
 	public void givenSomeOrderIdAndReasonWhenCancelingOrderThenCancelAndReturnOrder() throws JsonProcessingException {
 		final String someOrderId = "1234";
 		final String someCanceledReason = "Customer didn't like the quality of the product";
+		final BigDecimal amount = new BigDecimal("0.01");
+		final String currency = "USD";
 
 		final String expectedPath = new StringBuilder().append(FORWARD_SLASH).append(ShopifySdk.API_VERSION_PREFIX)
 				.append(FORWARD_SLASH).append(SOME_API_VERSION).append(FORWARD_SLASH).append(ShopifySdk.ORDERS)
@@ -839,7 +841,7 @@ public class ShopifySdkTest {
 						.withMethod(Method.POST).capturingBodyIn(actualRequestBody),
 				giveResponse(expectedResponseBodyString, MediaType.APPLICATION_JSON).withStatus(expectedStatusCode));
 
-		final ShopifyOrder actualShopifyOrder = shopifySdk.cancelOrder(someOrderId, someCanceledReason);
+		final ShopifyOrder actualShopifyOrder = shopifySdk.cancelOrder(someOrderId, someCanceledReason, amount, currency);
 
 		assertEquals(someCanceledReason, actualRequestBody.getContent().get("reason").asText());
 		assertNotNull(actualShopifyOrder);

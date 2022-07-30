@@ -807,9 +807,11 @@ public class ShopifySdk {
 		return shopifyOrderRootResponse.getOrder();
 	}
 
-	public ShopifyOrder cancelOrder(final String orderId, final String reason) {
+	public ShopifyOrder cancelOrder(final String orderId, final String reason, final BigDecimal amount, final String currency) {
 		final ShopifyCancelOrderRequest shopifyCancelOrderRequest = new ShopifyCancelOrderRequest();
 		shopifyCancelOrderRequest.setReason(reason);
+		shopifyCancelOrderRequest.setAmount(amount);
+		shopifyCancelOrderRequest.setCurrency(currency);
 		final Response response = post(buildOrdersEndpoint().path(orderId).path(CANCEL), shopifyCancelOrderRequest);
 		final ShopifyOrderRoot shopifyOrderRootResponse = response.readEntity(ShopifyOrderRoot.class);
 		return shopifyOrderRootResponse.getOrder();

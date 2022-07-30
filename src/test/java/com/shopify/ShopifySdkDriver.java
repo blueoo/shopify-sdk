@@ -241,8 +241,10 @@ public class ShopifySdkDriver {
 	public void givenValidOrderIdWhenCancelingOrderThenCancelShopifyOrder() {
 		final String orderId = "5388977100";
 		final String reason = null;
+		final BigDecimal amount = new BigDecimal("0.01");
+		final String currency = "USD";
 
-		final ShopifyOrder actualShopifyOrder = shopifySdk.cancelOrder(orderId, reason);
+		final ShopifyOrder actualShopifyOrder = shopifySdk.cancelOrder(orderId, reason, amount, currency);
 
 		assertNotNull(actualShopifyOrder.getCancelledAt());
 	}
