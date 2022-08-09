@@ -115,7 +115,7 @@ public class ShopifyProductCreationRequest implements ShopifyProductRequest {
 				final List<ShopifyVariantCreationRequest> variantCreationRequests) {
 			final List<ShopifyVariant> shopifyVariants = new ArrayList<>(variantCreationRequests.size());
 
-			Collections.sort(variantCreationRequests, new ShopifyVariantRequestOption1Comparator());
+//			Collections.sort(variantCreationRequests, new ShopifyVariantRequestOption1Comparator());
 
 			for (int i = 0; i < variantCreationRequests.size(); i++) {
 				final ShopifyVariantCreationRequest shopifyVariantCreationRequest = variantCreationRequests.get(i);

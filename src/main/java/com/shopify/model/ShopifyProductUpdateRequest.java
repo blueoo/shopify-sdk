@@ -172,7 +172,7 @@ public class ShopifyProductUpdateRequest implements ShopifyProductRequest {
 
 			int maxPosition = variantRequests.stream().map(ShopifyVariantRequest::getRequest)
 					.map(ShopifyVariant::getPosition).max(Comparator.naturalOrder()).get();
-			Collections.sort(variantRequests, new ShopifyVariantRequestOption1Comparator());
+//			Collections.sort(variantRequests, new ShopifyVariantRequestOption1Comparator());
 			for (int i = 0; i < variantRequests.size(); i++) {
 				final ShopifyVariantRequest shopifyVariantRequest = variantRequests.get(i);
 				if (shopifyVariantRequest.hasChanged()) {
