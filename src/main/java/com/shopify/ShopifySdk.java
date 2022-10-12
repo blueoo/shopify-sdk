@@ -919,6 +919,18 @@ public class ShopifySdk {
 		//获取所有可退款的交易流水
 		final ShopifyRefund calculatedShopifyRefund = calculateRefund(shopifyRefundCreationRequest);
 
+		//礼品卡优先退
+		calculatedShopifyRefund.getTransactions().sort(new Comparator<ShopifyTransaction>() {
+			@Override
+			public int compare(ShopifyTransaction o1, ShopifyTransaction o2) {
+				if (o1.getGateway().equals("gift_card")) {
+					return -1;
+				} else {
+					return 0;
+				}
+			}
+		});
+
 		List<ShopifyTransaction> shopifyTransactions = new ArrayList<>();
 		for (ShopifyTransaction transaction : calculatedShopifyRefund.getTransactions()) {
 			//待退款金额大于0，并且可退金额大于0
