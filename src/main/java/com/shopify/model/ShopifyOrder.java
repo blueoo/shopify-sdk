@@ -53,7 +53,7 @@ public class ShopifyOrder {
 	@XmlElement(name = "total_discounts")
 	private BigDecimal totalDiscounts;
 	@XmlElement(name = "total_line_items_price")
-	private BigDecimal totaLineItemsPrice;
+	private BigDecimal totalLineItemsPrice;
 	@XmlElement(name = "cart_token")
 	private String cartToken;
 	@XmlElement(name = "buyer_accepts_marketing")
@@ -236,12 +236,12 @@ public class ShopifyOrder {
 		this.totalDiscounts = totalDiscounts;
 	}
 
-	public BigDecimal getTotaLineItemsPrice() {
-		return totaLineItemsPrice;
+	public BigDecimal getTotalLineItemsPrice() {
+		return totalLineItemsPrice;
 	}
 
-	public void setTotaLineItemsPrice(final BigDecimal totaLineItemsPrice) {
-		this.totaLineItemsPrice = totaLineItemsPrice;
+	public void setTotalLineItemsPrice(final BigDecimal totalLineItemsPrice) {
+		this.totalLineItemsPrice = totalLineItemsPrice;
 	}
 
 	public String getCartToken() {
