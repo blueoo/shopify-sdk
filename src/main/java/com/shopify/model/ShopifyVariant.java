@@ -75,6 +75,14 @@ public class ShopifyVariant {
 	@XmlJavaTypeAdapter(EscapedStringAdapter.class)
 	private String weightUnit;
 
+	@XmlElement(name = "created_at")
+	@JsonProperty(value = "created_at")
+	private String createdAt;
+
+	@XmlElement(name = "updated_at")
+	@JsonProperty(value = "updated_at")
+	private String updatedAt;
+
 	public String getId() {
 		return id;
 	}
@@ -249,5 +257,21 @@ public class ShopifyVariant {
 
 	public void setWeightUnit(String weightUnit) {
 		this.weightUnit = weightUnit;
+	}
+
+	public String getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(String updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
 	}
 }
