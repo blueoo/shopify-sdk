@@ -237,9 +237,9 @@ public class ShopifyProductUpdateRequest implements ShopifyProductRequest {
 				final Image image = new Image();
 				image.setPosition(position);
 				image.setSource(imageSource);
-				final List<Metafield> metafields = ImageAltTextCreationRequest.newBuilder()
-						.withImageAltText(shopifyProduct.getTitle()).build();
-				image.setMetafields(metafields);
+//				final List<Metafield> metafields = ImageAltTextCreationRequest.newBuilder()
+//						.withImageAltText(shopifyProduct.getTitle()).build();
+//				image.setMetafields(metafields);
 				position++;
 				images.add(image);
 			}

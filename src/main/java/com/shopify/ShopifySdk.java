@@ -561,9 +561,9 @@ public class ShopifySdk {
 			final ShopifyImageRoot shopifyImageRootRequest = new ShopifyImageRoot();
 			final Image imageRequest = new Image();
 			imageRequest.setSource(shopifyVariantUpdateRequest.getImageSource());
-			final List<Metafield> metafields = ImageAltTextCreationRequest.newBuilder()
-					.withImageAltText(shopifyVariant.getTitle()).build();
-			imageRequest.setMetafields(metafields);
+//			final List<Metafield> metafields = ImageAltTextCreationRequest.newBuilder()
+//					.withImageAltText(shopifyVariant.getTitle()).build();
+//			imageRequest.setMetafields(metafields);
 			imageRequest.setVariantIds(Arrays.asList(shopifyVariantId));
 			shopifyImageRootRequest.setImage(imageRequest);
 			final String productId = shopifyVariant.getProductId();
