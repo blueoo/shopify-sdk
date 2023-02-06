@@ -68,6 +68,7 @@ public class ShopifySdk {
 	static final String CUSTOM_COLLECTIONS = "custom_collections";
 	static final String RECURRING_APPLICATION_CHARGES = "recurring_application_charges";
 	static final String ORDERS = "orders";
+	static final String CHECKOUTS = "checkouts";
 	static final String FULFILLMENTS = "fulfillments";
 	static final String ACTIVATE = "activate";
 	static final String IMAGES = "images";
@@ -1251,5 +1252,30 @@ public class ShopifySdk {
 
 	private WebTarget buildOrdersEndpoint() {
 		return getWebTarget().path(ORDERS);
+	}
+
+	private WebTarget buildCheckoutsEndpoint() {
+		return getWebTarget().path(CHECKOUTS);
+	}
+
+	public ShopifyPage<ShopifyAbandonedCheckouts> getUpdatedCheckoutsCreatedBefore(final String status, final DateTime minimumUpdatedAtDate,
+																   final DateTime maximumUpdatedAtDate, final DateTime maximumCreatedAtDate, final int pageSize) {
+		final Response response = get(buildCheckoutsEndpoint().queryParam(STATUS_QUERY_PARAMETER, status)
+				.queryParam(LIMIT_QUERY_PARAMETER, pageSize)
+				.queryParam(UPDATED_AT_MIN_QUERY_PARAMETER, minimumUpdatedAtDate.toString())
+				.queryParam(UPDATED_AT_MAX_QUERY_PARAMETER, maximumUpdatedAtDate.toString())
+				.queryParam(CREATED_AT_MAX_QUERY_PARAMETER, maximumCreatedAtDate.toString()));
+		return getCheckouts(response);
+	}
+
+	public ShopifyPage<ShopifyAbandonedCheckouts> getCheckouts(final String pageInfo, final int pageSize) {
+		final Response response = get(buildCheckoutsEndpoint().queryParam(LIMIT_QUERY_PARAMETER, pageSize)
+				.queryParam(PAGE_INFO_QUERY_PARAMETER, pageInfo));
+		return getCheckouts(response);
+	}
+
+	private ShopifyPage<ShopifyAbandonedCheckouts> getCheckouts(final Response response) {
+		final ShopifyCheckoutsRoot shopifyCheckoutsRootResponse = response.readEntity(ShopifyCheckoutsRoot.class);
+		return mapPagedResponse(shopifyCheckoutsRootResponse.getCheckouts(), response);
 	}
 }
