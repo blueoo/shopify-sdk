@@ -123,8 +123,9 @@ public class ShopifySdk {
 	private static final Long DEFAULT_MAXIMUM_REQUEST_RETRY_TIMEOUT_IN_MILLISECONDS = 180000L;
 	private static final Long DEFAULT_MAXIMUM_REQUEST_RETRY_RANDOM_DELAY_IN_MILLISECONDS = 5000L;
 	private static final Long DEFAULT_MINIMUM_REQUEST_RETRY_RANDOM_DELAY_IN_MILLISECONDS = 1000L;
-	private static final long DEFAULT_READ_TIMEOUT_IN_MILLISECONDS = 15000L;
+	private static final long DEFAULT_READ_TIMEOUT_IN_MILLISECONDS = 30000L;
 	private static final long DEFAULT_CONNECTION_TIMEOUT_IN_MILLISECONDS = 60000L;
+	private static final int DEFAULT_MAXIMUM_REQUEST_RETRY_TIMES = 20;
 
 	private String shopSubdomain;
 	private String apiUrl;
@@ -137,6 +138,7 @@ public class ShopifySdk {
 	private long minimumRequestRetryRandomDelayMilliseconds;
 	private long maximumRequestRetryRandomDelayMilliseconds;
 	private long maximumRequestRetryTimeoutMilliseconds;
+	private int maximumRequestRetryTimes;
 
 	private static final Client CLIENT = buildClient();
 
@@ -180,6 +182,15 @@ public class ShopifySdk {
 		 * @return {@link OptionalsStep}
 		 */
 		OptionalsStep withMaximumRequestRetryTimeout(int duration, TimeUnit timeUnit);
+
+		/**
+		 * Maximum duration time to keep attempting requests <br>
+		 * Default value is: 3 minutes.
+		 *
+		 * @param times
+		 * @return {@link OptionalsStep}
+		 */
+		OptionalsStep withMaximumRequestRetryTimes(int times);
 
 		/**
 		 * The duration to wait when connecting to Shopify's API. <br>
@@ -255,6 +266,7 @@ public class ShopifySdk {
 			this.minimumRequestRetryRandomDelayMilliseconds = steps.minimumRequestRetryRandomDelayMilliseconds;
 			this.maximumRequestRetryRandomDelayMilliseconds = steps.maximumRequestRetryRandomDelayMilliseconds;
 			this.maximumRequestRetryTimeoutMilliseconds = steps.maximumRequestRetryTimeoutMilliseconds;
+			this.maximumRequestRetryTimes = steps.maximumRequestRetryTimes;
 
 			CLIENT.property(ClientProperties.CONNECT_TIMEOUT, Math.toIntExact(steps.connectionTimeoutMilliseconds));
 			CLIENT.property(ClientProperties.READ_TIMEOUT, Math.toIntExact(steps.readTimeoutMilliseconds));
@@ -288,6 +300,7 @@ public class ShopifySdk {
 		private long maximumRequestRetryTimeoutMilliseconds = DEFAULT_MAXIMUM_REQUEST_RETRY_TIMEOUT_IN_MILLISECONDS;
 		private long connectionTimeoutMilliseconds = DEFAULT_CONNECTION_TIMEOUT_IN_MILLISECONDS;
 		private long readTimeoutMilliseconds = DEFAULT_READ_TIMEOUT_IN_MILLISECONDS;
+		private int maximumRequestRetryTimes = DEFAULT_MAXIMUM_REQUEST_RETRY_TIMES;
 
 		@Override
 		public ShopifySdk build() {
@@ -345,6 +358,12 @@ public class ShopifySdk {
 		@Override
 		public OptionalsStep withMaximumRequestRetryTimeout(final int duration, final TimeUnit timeUnit) {
 			this.maximumRequestRetryTimeoutMilliseconds = timeUnit.toMillis(duration);
+			return this;
+		}
+
+		@Override
+		public OptionalsStep withMaximumRequestRetryTimes(final int times) {
+			this.maximumRequestRetryTimes = times;
 			return this;
 		}
 
@@ -1096,8 +1115,9 @@ public class ShopifySdk {
 		return RetryerBuilder.<Response>newBuilder().retryIfResult(ShopifySdk::shouldRetryResponse).retryIfException()
 				.withWaitStrategy(WaitStrategies.randomWait(minimumRequestRetryRandomDelayMilliseconds,
 						TimeUnit.MILLISECONDS, maximumRequestRetryRandomDelayMilliseconds, TimeUnit.MILLISECONDS))
-				.withStopStrategy(
-						StopStrategies.stopAfterDelay(maximumRequestRetryTimeoutMilliseconds, TimeUnit.MILLISECONDS))
+//				.withStopStrategy(
+//						StopStrategies.stopAfterDelay(maximumRequestRetryTimeoutMilliseconds, TimeUnit.MILLISECONDS))
+				.withStopStrategy(StopStrategies.stopAfterAttempt(maximumRequestRetryTimes))
 				.withRetryListener(new ShopifySdkRetryListener()).build();
 	}
 
