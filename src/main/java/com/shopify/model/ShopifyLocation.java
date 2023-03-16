@@ -18,6 +18,8 @@ public class ShopifyLocation {
 	private String country;
 	private String phone;
 	private String province;
+	private Boolean legacy;
+	private Boolean active;
 
 	@XmlElement(name = "country_code")
 	private String countryCode;
@@ -76,6 +78,14 @@ public class ShopifyLocation {
 		return provinceCode;
 	}
 
+	public Boolean getActive() {
+		return active;
+	}
+
+	public Boolean getLegacy() {
+		return legacy;
+	}
+
 	public void setId(final String id) {
 		this.id = id;
 	}
@@ -124,4 +134,11 @@ public class ShopifyLocation {
 		this.provinceCode = provinceCode;
 	}
 
+	public void setLegacy(Boolean legacy) {
+		this.legacy = legacy;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
 }
