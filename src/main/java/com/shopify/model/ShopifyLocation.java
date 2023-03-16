@@ -18,6 +18,7 @@ public class ShopifyLocation {
 	private String country;
 	private String phone;
 	private String province;
+	private Boolean legacy;
 
 	@XmlElement(name = "country_code")
 	private String countryCode;
