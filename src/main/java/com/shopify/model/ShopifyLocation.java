@@ -137,8 +137,4 @@ public class ShopifyLocation {
 	public void setLegacy(Boolean legacy) {
 		this.legacy = legacy;
 	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
 }
