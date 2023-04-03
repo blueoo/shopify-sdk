@@ -70,6 +70,70 @@ public class ShopifyOrder {
 	private String cancelReason;
 	@XmlElement(name = "user_id")
 	private String userId;
+
+	@XmlElement(name = "checkout_id")
+	private String checkoutId;
+
+	@XmlElement(name = "checkout_token")
+	private String checkoutToken;
+
+	@XmlElement(name = "confirmed")
+	private Boolean confirmed;
+
+	@XmlElement(name = "contact_email")
+	private String contactEmail;
+
+	@XmlElement(name = "current_subtotal_price")
+	private BigDecimal currentSubtotalPrice;
+
+	@XmlElement(name = "current_total_discounts")
+	private BigDecimal currentTotalDiscounts;
+
+	@XmlElement(name = "current_total_price")
+	private BigDecimal currentTotalPrice;
+
+	@XmlElement(name = "current_total_tax")
+	private BigDecimal currentTotalTax;
+
+	@XmlElement(name = "customer_locale")
+	private String customerLocale;
+
+	@XmlElement(name = "device_id")
+	private String deviceId;
+
+	@XmlElement(name = "estimated_taxes")
+	private boolean estimatedTaxes;
+
+	@XmlElement(name = "gateway")
+	private String gateway;
+
+	@XmlElement(name = "landing_site_ref")
+	private String landingSiteRef;
+
+	@XmlElement(name = "phone")
+	private String phone;
+
+	@XmlElement(name = "presentment_currency")
+	private String presentmentCurrency;
+
+	@XmlElement(name = "reference")
+	private String reference;
+
+	@XmlElement(name = "source_identifier")
+	private String sourceIdentifier;
+
+	@XmlElement(name = "source_url")
+	private String sourceUrl;
+
+	@XmlElement(name = "test")
+	private Boolean test;
+
+	@XmlElement(name = "total_outstanding")
+	private BigDecimal totalOutstanding;
+
+	@XmlElement(name = "total_price_usd")
+	private BigDecimal totalPriceUsd;
+
 	@XmlElement(name = "location_id")
 	private String locationId;
 	@XmlElement(name = "processed_at")
@@ -306,6 +370,174 @@ public class ShopifyOrder {
 
 	public void setUserId(final String userId) {
 		this.userId = userId;
+	}
+
+	public String getCheckoutId() {
+		return checkoutId;
+	}
+
+	public void setCheckoutId(final String checkoutId) {
+		this.checkoutId = checkoutId;
+	}
+
+	public String getCheckoutToken() {
+		return checkoutToken;
+	}
+
+	public void setCheckoutToken(final String checkoutToken) {
+		this.checkoutToken = checkoutToken;
+	}
+
+	public Boolean getConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(final Boolean confirmed) {
+		this.confirmed = confirmed;
+	}
+
+	public String getContactEmail() {
+		return contactEmail;
+	}
+
+	public void setContactEmail(final String contactEmail) {
+		this.contactEmail = contactEmail;
+	}
+
+	public BigDecimal getCurrentSubtotalPrice() {
+		return currentSubtotalPrice;
+	}
+
+	public void setCurrentSubtotalPrice(final BigDecimal currentSubtotalPrice) {
+		this.currentSubtotalPrice = currentSubtotalPrice;
+	}
+
+	public BigDecimal getCurrentTotalDiscounts() {
+		return currentTotalDiscounts;
+	}
+
+	public void setCurrentTotalDiscounts(final BigDecimal currentTotalDiscounts) {
+		this.currentTotalDiscounts = currentTotalDiscounts;
+	}
+
+	public BigDecimal getCurrentTotalPrice() {
+		return currentTotalPrice;
+	}
+
+	public void setCurrentTotalPrice(final BigDecimal currentTotalPrice) {
+		this.currentTotalPrice = currentTotalPrice;
+	}
+
+	public BigDecimal getCurrentTotalTax() {
+		return currentTotalTax;
+	}
+
+	public void setCurrentTotalTax(final BigDecimal currentTotalTax) {
+		this.currentTotalTax = currentTotalTax;
+	}
+
+	public String getCustomerLocale() {
+		return customerLocale;
+	}
+
+	public void setCustomerLocale(final String customerLocale) {
+		this.customerLocale = customerLocale;
+	}
+
+	public String getDeviceId() {
+		return deviceId;
+	}
+
+	public void setDeviceId(final String deviceId) {
+		this.deviceId = deviceId;
+	}
+
+	public boolean isEstimatedTaxes() {
+		return estimatedTaxes;
+	}
+
+	public void setEstimatedTaxes(final boolean estimatedTaxes) {
+		this.estimatedTaxes = estimatedTaxes;
+	}
+
+	public String getGateway() {
+		return gateway;
+	}
+
+	public void setGateway(final String gateway) {
+		this.gateway = gateway;
+	}
+
+	public String getLandingSiteRef() {
+		return landingSiteRef;
+	}
+
+	public void setLandingSiteRef(final String landingSiteRef) {
+		this.landingSiteRef = landingSiteRef;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(final String phone) {
+		this.phone = phone;
+	}
+
+	public String getPresentmentCurrency() {
+		return presentmentCurrency;
+	}
+
+	public void setPresentmentCurrency(final String presentmentCurrency) {
+		this.presentmentCurrency = presentmentCurrency;
+	}
+
+	public String getReference() {
+		return reference;
+	}
+
+	public void setReference(final String reference) {
+		this.reference = reference;
+	}
+
+	public String getSourceIdentifier() {
+		return sourceIdentifier;
+	}
+
+	public void setSourceIdentifier(final String sourceIdentifier) {
+		this.sourceIdentifier = sourceIdentifier;
+	}
+
+	public String getSourceUrl() {
+		return sourceUrl;
+	}
+
+	public void setSourceUrl(final String sourceUrl) {
+		this.sourceUrl = sourceUrl;
+	}
+
+	public boolean isTest() {
+		return test;
+	}
+
+	public void setTest(final boolean test) {
+		this.test = test;
+	}
+
+	public BigDecimal getTotalOutstanding() {
+		return totalOutstanding;
+	}
+
+	public void setTotalOutstanding(final BigDecimal totalOutstanding) {
+		this.totalOutstanding = totalOutstanding;
+	}
+
+	public BigDecimal getTotalPriceUsd() {
+		return totalPriceUsd;
+	}
+
+	public void setTotalPriceUsd(final BigDecimal totalPriceUsd) {
+		this.totalPriceUsd = totalPriceUsd;
 	}
 
 	public String getLocationId() {
