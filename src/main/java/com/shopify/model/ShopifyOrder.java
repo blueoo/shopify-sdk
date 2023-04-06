@@ -172,6 +172,9 @@ public class ShopifyOrder {
 	@XmlElement(name = "discount_codes")
 	private List<ShopifyDiscountCode> discountCodes = new LinkedList<>();
 
+	@XmlElement(name = "client_details")
+	private ShopifyClientDetails clientDetails = new ShopifyClientDetails();
+
 	public String getId() {
 		return id;
 	}
@@ -706,5 +709,13 @@ public class ShopifyOrder {
 
 	public void setDiscountCodes(List<ShopifyDiscountCode> discountCodes) {
 		this.discountCodes = discountCodes;
+	}
+
+	public ShopifyClientDetails getClientDetails() {
+		return clientDetails;
+	}
+
+	public void setClientDetails(final ShopifyClientDetails clientDetails) {
+		this.clientDetails = clientDetails;
 	}
 }
