@@ -47,6 +47,9 @@ public class ShopifyLineItem {
 	@XmlElement(name = "discount_allocations")
 	private List<ShopifyDiscountAllocations> discountAllocations = new LinkedList<>();
 
+	@XmlElement(name = "product_exists")
+	private boolean productExists;
+
 	public String getId() {
 		return id;
 	}
@@ -213,6 +216,14 @@ public class ShopifyLineItem {
 
 	public void setDiscountAllocations(final List<ShopifyDiscountAllocations> discountAllocations) {
 		this.discountAllocations = discountAllocations;
+	}
+
+	public boolean isProductExists() {
+		return productExists;
+	}
+
+	public void setProductExists(final boolean productExists) {
+		this.productExists = productExists;
 	}
 
 }

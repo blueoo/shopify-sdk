@@ -65,6 +65,13 @@ public class ShopifyFulfillment {
 	private DateTime updatedAt;
 	@XmlElement(name = "tracking_company")
 	private String trackingCompany;
+
+	@XmlElement(name = "name")
+	private String name;
+
+	@XmlElement(name = "service")
+	private String service;
+
 	@XmlElement(name = "tracking_number")
 	private String trackingNumber;
 	@XmlElement(name = "notify_customer")
@@ -77,6 +84,12 @@ public class ShopifyFulfillment {
 	private List<String> trackingUrls = new LinkedList<>();
 	@XmlElement(name = "location_id")
 	private String locationId;
+
+	@XmlElement(name = "shipment_status")
+	private String shipmentStatus;
+
+	@XmlElement(name = "tracking_numbers")
+	private List<String> trackingNumbers = new LinkedList<>();
 
 	public String getId() {
 		return id;
@@ -174,4 +187,36 @@ public class ShopifyFulfillment {
 		this.locationId = locationId;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
+	}
+
+	public String getService() {
+		return service;
+	}
+
+	public void setService(final String service) {
+		this.service = service;
+	}
+
+
+	public String getShipmentStatus() {
+		return shipmentStatus;
+	}
+
+	public void setShipmentStatus(final String shipmentStatus) {
+		this.shipmentStatus = shipmentStatus;
+	}
+
+	public List<String> getTrackingNumbers() {
+		return trackingNumbers;
+	}
+
+	public void setTrackingNumbers(final List<String> trackingNumbers) {
+		this.trackingNumbers = trackingNumbers;
+	}
 }
