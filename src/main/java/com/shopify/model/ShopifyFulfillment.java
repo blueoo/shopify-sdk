@@ -88,8 +88,8 @@ public class ShopifyFulfillment {
 	@XmlElement(name = "shipment_status")
 	private String shipmentStatus;
 
-	@XmlElement(name = "tracking_numbers")
-	private List<String> trackingNumbers = new LinkedList<>();
+//	@XmlElement(name = "tracking_numbers")
+//	private List<String> trackingNumbers = new LinkedList<>();
 
 	public String getId() {
 		return id;
@@ -212,11 +212,11 @@ public class ShopifyFulfillment {
 		this.shipmentStatus = shipmentStatus;
 	}
 
-	public List<String> getTrackingNumbers() {
-		return trackingNumbers;
-	}
-
-	public void setTrackingNumbers(final List<String> trackingNumbers) {
-		this.trackingNumbers = trackingNumbers;
-	}
+//	public List<String> getTrackingNumbers() {
+//		return trackingNumbers;
+//	}
+//
+//	public void setTrackingNumbers(final List<String> trackingNumbers) {
+//		this.trackingNumbers = trackingNumbers;
+//	}
 }
