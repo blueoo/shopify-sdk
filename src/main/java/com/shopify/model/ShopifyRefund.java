@@ -40,9 +40,6 @@ public class ShopifyRefund {
 	@XmlJavaTypeAdapter(CurrencyAdapter.class)
 	private Currency currency;
 
-	@XmlElement(name = "restock")
-	private boolean restock;
-
 	public String getId() {
 		return id;
 	}
@@ -130,13 +127,4 @@ public class ShopifyRefund {
 	public void setCurrency(final Currency currency) {
 		this.currency = currency;
 	}
-
-	public boolean isRestock() {
-		return restock;
-	}
-
-	public void setRestock(final boolean restock) {
-		this.restock = restock;
-	}
-
 }
