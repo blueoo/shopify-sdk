@@ -56,7 +56,7 @@ public class ShopifyVariantUpdateRequestTest {
 		assertEquals(SOME_CURRENT_PRICE_AMOUNT.toPlainString(), actualShopifyVariant.getPrice().toPlainString());
 		assertEquals(SOME_CURRENT_COMPARE_AT_PRICE_AMOUNT.toPlainString(),
 				actualShopifyVariant.getCompareAtPrice().toPlainString());
-		assertEquals(405, actualShopifyVariant.getGrams());
+		assertEquals(405, actualShopifyVariant.getGrams().longValue());
 		assertEquals(SOME_CURRENT_QUANTITY, java.util.Optional.ofNullable(actualShopifyVariant.getInventoryQuantity()));
 		assertEquals(SOME_CURRENT_FIRST_OPTION, actualShopifyVariant.getOption1());
 		assertEquals(SOME_CURRENT_SECOND_OPTION, actualShopifyVariant.getOption2());
@@ -93,7 +93,7 @@ public class ShopifyVariantUpdateRequestTest {
 		assertEquals(SOME_NEW_PRICE_AMOUNT.toPlainString(), actualShopifyVariant.getPrice().toPlainString());
 		assertEquals(SOME_NEW_COMPARE_AT_PRICE_AMOUNT.toPlainString(),
 				actualShopifyVariant.getCompareAtPrice().toPlainString());
-		assertEquals(406, actualShopifyVariant.getGrams());
+		assertEquals(406, actualShopifyVariant.getGrams().longValue());
 		assertEquals(SOME_NEW_QUANTITY, java.util.Optional.ofNullable(actualShopifyVariant.getInventoryQuantity()));
 		assertEquals(SOME_NEW_FIRST_OPTION, actualShopifyVariant.getOption1());
 		assertEquals(SOME_NEW_SECOND_OPTION, actualShopifyVariant.getOption2());
@@ -130,7 +130,7 @@ public class ShopifyVariantUpdateRequestTest {
 		assertEquals(SOME_NEW_PRICE_AMOUNT.toPlainString(), actualShopifyVariant.getPrice().toPlainString());
 		assertEquals(SOME_NEW_COMPARE_AT_PRICE_AMOUNT.toPlainString(),
 				actualShopifyVariant.getCompareAtPrice().toPlainString());
-		assertEquals(406, actualShopifyVariant.getGrams());
+		assertEquals(406, actualShopifyVariant.getGrams().longValue());
 		assertEquals(SOME_NEW_QUANTITY, java.util.Optional.ofNullable(actualShopifyVariant.getInventoryQuantity()));
 		assertNull(actualShopifyVariant.getOption1());
 		assertNull(actualShopifyVariant.getOption2());

@@ -32,8 +32,8 @@ public class ShopifyVariant {
 	private BigDecimal compareAtPrice;
 	private String sku;
 	private String barcode;
-	private int position;
-	private long grams;
+	private Integer position;
+	private Long grams;
 	@XmlElement(name = "inventory_quantity")
 	@JsonProperty(value = "inventory_quantity")
 	private Long inventoryQuantity;
@@ -137,19 +137,19 @@ public class ShopifyVariant {
 		this.barcode = barcode;
 	}
 
-	public int getPosition() {
+	public Integer getPosition() {
 		return position;
 	}
 
-	public void setPosition(final int position) {
+	public void setPosition(final Integer position) {
 		this.position = position;
 	}
 
-	public long getGrams() {
+	public Long getGrams() {
 		return grams;
 	}
 
-	public void setGrams(final long grams) {
+	public void setGrams(final Long grams) {
 		this.grams = grams;
 	}
 
