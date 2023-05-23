@@ -17,8 +17,12 @@ public class ShopifyAdjustment {
 	@XmlElement(name = "refund_id")
 	private String refundId;
 	private BigDecimal amount;
+	@XmlElement(name = "amount_set")
+	private ShopifyMoneySet amountSet;
 	@XmlElement(name = "tax_amount")
 	private BigDecimal taxAmount;
+	@XmlElement(name = "tax_amount_set")
+	private ShopifyMoneySet taxAmountSet;
 	private String kind;
 	private String reason;
 
@@ -78,4 +82,19 @@ public class ShopifyAdjustment {
 		this.reason = reason;
 	}
 
+	public ShopifyMoneySet getAmountSet() {
+		return amountSet;
+	}
+
+	public void setAmountSet(ShopifyMoneySet amountSet) {
+		this.amountSet = amountSet;
+	}
+
+	public ShopifyMoneySet getTaxAmountSet() {
+		return taxAmountSet;
+	}
+
+	public void setTaxAmountSet(ShopifyMoneySet taxAmountSet) {
+		this.taxAmountSet = taxAmountSet;
+	}
 }

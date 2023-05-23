@@ -40,6 +40,9 @@ public class ShopifyRefund {
 	@XmlJavaTypeAdapter(CurrencyAdapter.class)
 	private Currency currency;
 
+	@XmlElement(name = "total_duties_set")
+	private ShopifyMoneySet totalDutiesSet;
+
 	public String getId() {
 		return id;
 	}
@@ -126,5 +129,13 @@ public class ShopifyRefund {
 
 	public void setCurrency(final Currency currency) {
 		this.currency = currency;
+	}
+
+	public ShopifyMoneySet getTotalDutiesSet() {
+		return totalDutiesSet;
+	}
+
+	public void setTotalDutiesSet(ShopifyMoneySet totalDutiesSet) {
+		this.totalDutiesSet = totalDutiesSet;
 	}
 }

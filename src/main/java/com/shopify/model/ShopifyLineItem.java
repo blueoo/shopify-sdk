@@ -18,8 +18,13 @@ public class ShopifyLineItem {
 	private String variantId;
 	private String title;
 	private long quantity;
+
 	private BigDecimal price;
-	private long grams;
+
+	@XmlElement(name = "price_set")
+	private ShopifyMoneySet priceSet;
+
+	private Long grams;
 	private String sku;
 	@XmlElement(name = "variant_title")
 	private String variantTitle;
@@ -27,17 +32,22 @@ public class ShopifyLineItem {
 	@XmlElement(name = "product_id")
 	private String productId;
 	@XmlElement(name = "requires_shipping")
-	private boolean requiresShipping;
-	private boolean taxable;
+	private Boolean requiresShipping;
+	private Boolean taxable;
 	@XmlElement(name = "gift_card")
-	private boolean giftCard;
+	private Boolean giftCard;
 	private String name;
 	@XmlElement(name = "variant_inventory_management")
 	private String variantInventoryManagement;
 	@XmlElement(name = "fulfillable_quantity")
 	private long fulfillableQuantity;
+
 	@XmlElement(name = "total_discount")
 	private BigDecimal totalDiscount;
+
+	@XmlElement(name = "total_discount_set")
+	private ShopifyMoneySet totalDiscountSet;
+
 	@XmlElement(name = "fulfillment_status")
 	private String fulfillmentStatus;
 	@XmlElement(name = "fulfillment_service")
@@ -48,7 +58,7 @@ public class ShopifyLineItem {
 	private List<ShopifyDiscountAllocations> discountAllocations = new LinkedList<>();
 
 	@XmlElement(name = "product_exists")
-	private boolean productExists;
+	private Boolean productExists;
 
 	public String getId() {
 		return id;
@@ -94,7 +104,7 @@ public class ShopifyLineItem {
 		return grams;
 	}
 
-	public void setGrams(final long grams) {
+	public void setGrams(final Long grams) {
 		this.grams = grams;
 	}
 
@@ -134,7 +144,7 @@ public class ShopifyLineItem {
 		return requiresShipping;
 	}
 
-	public void setRequiresShipping(final boolean requiresShipping) {
+	public void setRequiresShipping(final Boolean requiresShipping) {
 		this.requiresShipping = requiresShipping;
 	}
 
@@ -142,7 +152,7 @@ public class ShopifyLineItem {
 		return taxable;
 	}
 
-	public void setTaxable(final boolean taxable) {
+	public void setTaxable(final Boolean taxable) {
 		this.taxable = taxable;
 	}
 
@@ -150,7 +160,7 @@ public class ShopifyLineItem {
 		return giftCard;
 	}
 
-	public void setGiftCard(final boolean giftCard) {
+	public void setGiftCard(final Boolean giftCard) {
 		this.giftCard = giftCard;
 	}
 
@@ -222,8 +232,23 @@ public class ShopifyLineItem {
 		return productExists;
 	}
 
-	public void setProductExists(final boolean productExists) {
+	public void setProductExists(final Boolean productExists) {
 		this.productExists = productExists;
 	}
 
+	public ShopifyMoneySet getTotalDiscountSet() {
+		return totalDiscountSet;
+	}
+
+	public void setTotalDiscountSet(ShopifyMoneySet totalDiscountSet) {
+		this.totalDiscountSet = totalDiscountSet;
+	}
+
+	public ShopifyMoneySet getPriceSet() {
+		return priceSet;
+	}
+
+	public void setPriceSet(ShopifyMoneySet priceSet) {
+		this.priceSet = priceSet;
+	}
 }

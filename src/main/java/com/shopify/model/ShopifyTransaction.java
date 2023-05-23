@@ -10,6 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.shopify.model.adapters.CurrencyAdapter;
+import com.shopify.model.adapters.DateTimeAdapter;
+import org.joda.time.DateTime;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -21,9 +23,14 @@ public class ShopifyTransaction {
 	private String kind;
 	private String gateway;
 	private String authorization;
+	@XmlElement(name = "created_at")
+	@XmlJavaTypeAdapter(DateTimeAdapter.class)
+	private DateTime createdAt;
+	@XmlElement(name = "processed_at")
+	@XmlJavaTypeAdapter(DateTimeAdapter.class)
+	private DateTime processedAt;
 	@XmlElement(name = "parent_id")
 	private String parentId;
-	private String status;
 	private String message;
 	private BigDecimal amount;
 	@XmlJavaTypeAdapter(CurrencyAdapter.class)
@@ -31,6 +38,10 @@ public class ShopifyTransaction {
 	@XmlElement(name = "maximum_refundable")
 	private BigDecimal maximumRefundable;
 	private ShopifyTransactionReceipt receipt;
+	@XmlElement(name = "source_name")
+	private BigDecimal sourceName;
+	private String status;
+	private Boolean test;
 
 	public String getId() {
 		return id;
@@ -126,5 +137,37 @@ public class ShopifyTransaction {
 
 	public void setAuthorization(final String authorization) {
 		this.authorization = authorization;
+	}
+
+	public DateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(DateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public DateTime getProcessedAt() {
+		return processedAt;
+	}
+
+	public void setProcessedAt(DateTime processedAt) {
+		this.processedAt = processedAt;
+	}
+
+	public BigDecimal getSourceName() {
+		return sourceName;
+	}
+
+	public void setSourceName(BigDecimal sourceName) {
+		this.sourceName = sourceName;
+	}
+
+	public Boolean getTest() {
+		return test;
+	}
+
+	public void setTest(Boolean test) {
+		this.test = test;
 	}
 }

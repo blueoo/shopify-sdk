@@ -20,7 +20,7 @@ public class ShopifyLineItemTest {
 		shopifyLineItem.setFulfillmentService("manual");
 		shopifyLineItem.setFulfillmentStatus("inProgress");
 		shopifyLineItem.setGiftCard(true);
-		shopifyLineItem.setGrams(3);
+		shopifyLineItem.setGrams(3L);
 		shopifyLineItem.setId("4");
 		shopifyLineItem.setPrice(SOME_PRICE);
 		shopifyLineItem.setName("Some_Name");

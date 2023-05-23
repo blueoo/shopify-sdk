@@ -21,53 +21,90 @@ import com.shopify.model.adapters.DateTimeAdapter;
 public class ShopifyOrder {
 
 	private String id;
+
 	private String email;
+
 	@XmlElement(name = "closed_at")
 	@XmlJavaTypeAdapter(DateTimeAdapter.class)
 	private DateTime closedAt;
+
 	@XmlElement(name = "created_at")
 	@XmlJavaTypeAdapter(DateTimeAdapter.class)
 	private DateTime createdAt;
+
 	@XmlElement(name = "updated_at")
 	@XmlJavaTypeAdapter(DateTimeAdapter.class)
 	private DateTime updatedAt;
+
 	private int number;
 	private String note;
 	private String token;
+
 	@XmlElement(name = "total_price")
 	private BigDecimal totalPrice;
+
+	@XmlElement(name = "total_price_set")
+	private ShopifyMoneySet totalPriceSet;
+
 	@XmlElement(name = "subtotal_price")
 	private BigDecimal subtotalPrice;
+
+	@XmlElement(name = "subtotal_price_set")
+	private ShopifyMoneySet subtotalPriceSet;
+
 	@XmlElement(name = "total_tip_received")
 	private BigDecimal totalTipReceived;
+
 	@XmlElement(name = "total_weight")
 	private long totalWeight;
+
 	@XmlElement(name = "total_tax")
 	private BigDecimal totalTax;
+	@XmlElement(name = "total_tax_set")
+	private ShopifyMoneySet totalTaxSet;
+
 	@XmlElement(name = "taxes_included")
 	private boolean taxesIncluded;
+
 	@XmlJavaTypeAdapter(CurrencyAdapter.class)
 	private Currency currency;
+
 	@XmlElement(name = "financial_status")
 	private String financialStatus;
+
 	@XmlElement(name = "total_discounts")
 	private BigDecimal totalDiscounts;
+
+	@XmlElement(name = "total_discounts_set")
+	private ShopifyMoneySet totalDiscountsSet;
+
 	@XmlElement(name = "total_line_items_price")
 	private BigDecimal totalLineItemsPrice;
+
+	@XmlElement(name = "total_line_items_price_set")
+	private ShopifyMoneySet totalLineItemsPriceSet;
+
 	@XmlElement(name = "cart_token")
 	private String cartToken;
+
 	@XmlElement(name = "buyer_accepts_marketing")
 	private boolean buyerAcceptsMarketing;
+
 	private String name;
+
 	@XmlElement(name = "referring_site")
 	private String referringSite;
+
 	@XmlElement(name = "landing_site")
 	private String landingSite;
+
 	@XmlElement(name = "cancelled_at")
 	@XmlJavaTypeAdapter(DateTimeAdapter.class)
 	private DateTime cancelledAt;
+
 	@XmlElement(name = "cancel_reason")
 	private String cancelReason;
+
 	@XmlElement(name = "user_id")
 	private String userId;
 
@@ -86,14 +123,38 @@ public class ShopifyOrder {
 	@XmlElement(name = "current_subtotal_price")
 	private BigDecimal currentSubtotalPrice;
 
+	@XmlElement(name = "current_subtotal_price_set")
+	private ShopifyMoneySet currentSubtotalPriceSet;
+
 	@XmlElement(name = "current_total_discounts")
 	private BigDecimal currentTotalDiscounts;
+
+	@XmlElement(name = "current_total_discounts_set")
+	private ShopifyMoneySet currentTotalDiscountsSet;
+
+	@XmlElement(name = "current_total_duties_set")
+	private ShopifyMoneySet currentTotalDutiesSet;
+
+	@XmlElement(name = "original_total_duties_set")
+	private ShopifyMoneySet originalTotalDutiesSet;
+
+	@XmlElement(name = "total_shipping_price_set")
+	private ShopifyMoneySet totalShippingPriceSet;
+
+	@XmlElement(name = "payment_gateway_names")
+	private List<String> paymentGatewayNames;
 
 	@XmlElement(name = "current_total_price")
 	private BigDecimal currentTotalPrice;
 
+	@XmlElement(name = "current_total_price_set")
+	private ShopifyMoneySet currentTotalPriceSet;
+
 	@XmlElement(name = "current_total_tax")
 	private BigDecimal currentTotalTax;
+
+	@XmlElement(name = "current_total_tax_set")
+	private ShopifyMoneySet currentTotalTaxSet;
 
 	@XmlElement(name = "customer_locale")
 	private String customerLocale;
@@ -156,19 +217,28 @@ public class ShopifyOrder {
 	@XmlElement(name = "line_items")
 	private List<ShopifyLineItem> lineItems = new LinkedList<>();
 	private List<ShopifyFulfillment> fulfillments = new LinkedList<>();
+
 	@XmlElement(name = "billing_address")
 	private ShopifyAddress billingAddress = new ShopifyAddress();
+
 	@XmlElement(name = "shipping_address")
 	private ShopifyAddress shippingAddress = new ShopifyAddress();
+
 	private ShopifyCustomer customer = new ShopifyCustomer();
+
 	@XmlElement(name = "shipping_lines")
 	private List<ShopifyShippingLine> shippingLines = new LinkedList<>();
+
 	@XmlElement(name = "tax_lines")
 	private List<ShopifyTaxLine> taxLines = new LinkedList<>();
+
 	@XmlElement(name = "note_attributes")
 	private List<ShopifyAttribute> noteAttributes = new LinkedList<>();
+
 	private List<ShopifyRefund> refunds = new LinkedList<>();
+
 	private List<Metafield> metafields = new LinkedList<>();
+
 	@XmlElement(name = "discount_codes")
 	private List<ShopifyDiscountCode> discountCodes = new LinkedList<>();
 
@@ -717,5 +787,109 @@ public class ShopifyOrder {
 
 	public void setClientDetails(final ShopifyClientDetails clientDetails) {
 		this.clientDetails = clientDetails;
+	}
+
+	public ShopifyMoneySet getCurrentSubtotalPriceSet() {
+		return currentSubtotalPriceSet;
+	}
+
+	public void setCurrentSubtotalPriceSet(ShopifyMoneySet currentSubtotalPriceSet) {
+		this.currentSubtotalPriceSet = currentSubtotalPriceSet;
+	}
+
+	public ShopifyMoneySet getCurrentTotalDiscountsSet() {
+		return currentTotalDiscountsSet;
+	}
+
+	public void setCurrentTotalDiscountsSet(ShopifyMoneySet currentTotalDiscountsSet) {
+		this.currentTotalDiscountsSet = currentTotalDiscountsSet;
+	}
+
+	public ShopifyMoneySet getCurrentTotalDutiesSet() {
+		return currentTotalDutiesSet;
+	}
+
+	public void setCurrentTotalDutiesSet(ShopifyMoneySet currentTotalDutiesSet) {
+		this.currentTotalDutiesSet = currentTotalDutiesSet;
+	}
+
+	public ShopifyMoneySet getCurrentTotalPriceSet() {
+		return currentTotalPriceSet;
+	}
+
+	public void setCurrentTotalPriceSet(ShopifyMoneySet currentTotalPriceSet) {
+		this.currentTotalPriceSet = currentTotalPriceSet;
+	}
+
+	public ShopifyMoneySet getCurrentTotalTaxSet() {
+		return currentTotalTaxSet;
+	}
+
+	public void setCurrentTotalTaxSet(ShopifyMoneySet currentTotalTaxSet) {
+		this.currentTotalTaxSet = currentTotalTaxSet;
+	}
+
+	public ShopifyMoneySet getOriginalTotalDutiesSet() {
+		return originalTotalDutiesSet;
+	}
+
+	public void setOriginalTotalDutiesSet(ShopifyMoneySet originalTotalDutiesSet) {
+		this.originalTotalDutiesSet = originalTotalDutiesSet;
+	}
+
+	public List<String> getPaymentGatewayNames() {
+		return paymentGatewayNames;
+	}
+
+	public void setPaymentGatewayNames(List<String> paymentGatewayNames) {
+		this.paymentGatewayNames = paymentGatewayNames;
+	}
+
+	public ShopifyMoneySet getSubtotalPriceSet() {
+		return subtotalPriceSet;
+	}
+
+	public void setSubtotalPriceSet(ShopifyMoneySet subtotalPriceSet) {
+		this.subtotalPriceSet = subtotalPriceSet;
+	}
+
+	public ShopifyMoneySet getTotalDiscountsSet() {
+		return totalDiscountsSet;
+	}
+
+	public void setTotalDiscountsSet(ShopifyMoneySet totalDiscountsSet) {
+		this.totalDiscountsSet = totalDiscountsSet;
+	}
+
+	public ShopifyMoneySet getTotalLineItemsPriceSet() {
+		return totalLineItemsPriceSet;
+	}
+
+	public void setTotalLineItemsPriceSet(ShopifyMoneySet totalLineItemsPriceSet) {
+		this.totalLineItemsPriceSet = totalLineItemsPriceSet;
+	}
+
+	public ShopifyMoneySet getTotalPriceSet() {
+		return totalPriceSet;
+	}
+
+	public void setTotalPriceSet(ShopifyMoneySet totalPriceSet) {
+		this.totalPriceSet = totalPriceSet;
+	}
+
+	public ShopifyMoneySet getTotalShippingPriceSet() {
+		return totalShippingPriceSet;
+	}
+
+	public void setTotalShippingPriceSet(ShopifyMoneySet totalShippingPriceSet) {
+		this.totalShippingPriceSet = totalShippingPriceSet;
+	}
+
+	public ShopifyMoneySet getTotalTaxSet() {
+		return totalTaxSet;
+	}
+
+	public void setTotalTaxSet(ShopifyMoneySet totalTaxSet) {
+		this.totalTaxSet = totalTaxSet;
 	}
 }

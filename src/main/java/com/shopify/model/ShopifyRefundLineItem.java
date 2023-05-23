@@ -12,16 +12,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ShopifyRefundLineItem {
 
 	private String id;
-	private long quantity;
 	@XmlElement(name = "line_item_id")
 	private String lineItemId;
 	@XmlElement(name = "location_id")
 	private String locationId;
+	private long quantity;
 	@XmlElement(name = "restock_type")
 	private String restockType;
 	private BigDecimal subtotal;
+	@XmlElement(name = "subtotal_set")
+	private ShopifyMoneySet subtotalSet;
 	@XmlElement(name = "total_tax")
 	private BigDecimal totalTax;
+	@XmlElement(name = "total_tax_set")
+	private ShopifyMoneySet totalTaxSet;
 	@XmlElement(name = "line_item")
 	private ShopifyLineItem lineItem;
 
@@ -89,4 +93,19 @@ public class ShopifyRefundLineItem {
 		this.lineItem = lineItem;
 	}
 
+	public ShopifyMoneySet getSubtotalSet() {
+		return subtotalSet;
+	}
+
+	public void setSubtotalSet(ShopifyMoneySet subtotalSet) {
+		this.subtotalSet = subtotalSet;
+	}
+
+	public ShopifyMoneySet getTotalTaxSet() {
+		return totalTaxSet;
+	}
+
+	public void setTotalTaxSet(ShopifyMoneySet totalTaxSet) {
+		this.totalTaxSet = totalTaxSet;
+	}
 }
