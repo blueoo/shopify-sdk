@@ -39,7 +39,7 @@ public class ShopifyTransaction {
 	private BigDecimal maximumRefundable;
 	private ShopifyTransactionReceipt receipt;
 	@XmlElement(name = "source_name")
-	private BigDecimal sourceName;
+	private String sourceName;
 	private String status;
 	private Boolean test;
 
@@ -155,11 +155,11 @@ public class ShopifyTransaction {
 		this.processedAt = processedAt;
 	}
 
-	public BigDecimal getSourceName() {
+	public String getSourceName() {
 		return sourceName;
 	}
 
-	public void setSourceName(BigDecimal sourceName) {
+	public void setSourceName(String sourceName) {
 		this.sourceName = sourceName;
 	}
 

@@ -140,7 +140,7 @@ public class ShopifyLineItem {
 		this.productId = productId;
 	}
 
-	public boolean isRequiresShipping() {
+	public Boolean isRequiresShipping() {
 		return requiresShipping;
 	}
 
@@ -148,7 +148,7 @@ public class ShopifyLineItem {
 		this.requiresShipping = requiresShipping;
 	}
 
-	public boolean isTaxable() {
+	public Boolean isTaxable() {
 		return taxable;
 	}
 
@@ -156,7 +156,7 @@ public class ShopifyLineItem {
 		this.taxable = taxable;
 	}
 
-	public boolean isGiftCard() {
+	public Boolean isGiftCard() {
 		return giftCard;
 	}
 
@@ -228,7 +228,7 @@ public class ShopifyLineItem {
 		this.discountAllocations = discountAllocations;
 	}
 
-	public boolean isProductExists() {
+	public Boolean isProductExists() {
 		return productExists;
 	}
 
