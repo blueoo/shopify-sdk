@@ -765,6 +765,14 @@ public class ShopifySdk {
 		return shopifyOrderRootResponse.getOrder();
 	}
 
+	public ShopifyCustomer createCustomer(final ShopifyCustomerCreateRequest shopifyCustomerCreateRequest) {
+		final ShopifyCustomerCreateRoot shopifyCustomerCreateRequestRoot = new ShopifyCustomerCreateRoot();
+		shopifyCustomerCreateRequestRoot.setCustomer(shopifyCustomerCreateRequest);
+		final Response response = post(getWebTarget().path(CUSTOMERS), shopifyCustomerCreateRequestRoot);
+		final ShopifyCustomerRoot shopifyCustomerRootResponse = response.readEntity(ShopifyCustomerRoot.class);
+		return shopifyCustomerRootResponse.getCustomer();
+	}
+
 	public ShopifyCustomer updateCustomer(final ShopifyCustomerUpdateRequest shopifyCustomerUpdateRequest) {
 		final ShopifyCustomerUpdateRoot shopifyCustomerUpdateRequestRoot = new ShopifyCustomerUpdateRoot();
 		shopifyCustomerUpdateRequestRoot.setCustomer(shopifyCustomerUpdateRequest);
