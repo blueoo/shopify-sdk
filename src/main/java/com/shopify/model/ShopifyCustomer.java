@@ -37,6 +37,12 @@ public class ShopifyCustomer {
 	@XmlElement(name = "total_spent")
 	private BigDecimal totalSpent;
 	private String note;
+	@XmlElement(name = "verified_email")
+	private boolean verifiedEmail;
+	@XmlElement(name = "addresses")
+	private ShopifyAddress addresses = new ShopifyAddress();
+	@XmlElement(name = "email_marketing_consent")
+	private ShopifyEmailMarketingConsent emailMarketingConsent;
 
 	public String getId() {
 		return id;
@@ -134,4 +140,27 @@ public class ShopifyCustomer {
 		this.note = note;
 	}
 
+	public boolean isVerifiedEmail() {
+		return verifiedEmail;
+	}
+
+	public void setVerifiedEmail(boolean verifiedEmail) {
+		this.verifiedEmail = verifiedEmail;
+	}
+
+	public ShopifyAddress getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(ShopifyAddress addresses) {
+		this.addresses = addresses;
+	}
+
+	public ShopifyEmailMarketingConsent getEmailMarketingConsent() {
+		return emailMarketingConsent;
+	}
+
+	public void setEmailMarketingConsent(ShopifyEmailMarketingConsent emailMarketingConsent) {
+		this.emailMarketingConsent = emailMarketingConsent;
+	}
 }
