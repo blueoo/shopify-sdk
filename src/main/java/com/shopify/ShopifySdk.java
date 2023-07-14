@@ -70,6 +70,7 @@ public class ShopifySdk {
 	static final String ORDERS = "orders";
 	static final String CHECKOUTS = "checkouts";
 	static final String FULFILLMENTS = "fulfillments";
+	static final String FULFILLMENT_ORDERS = "fulfillment_orders";
 	static final String ACTIVATE = "activate";
 	static final String IMAGES = "images";
 	static final String SHOP = "shop";
@@ -729,6 +730,15 @@ public class ShopifySdk {
 		return shopifyFulfillmentRootResponse.getFulfillment();
 	}
 
+	public ShopifyFulfillment createFulfillment(
+			final ShopifyFulfillmentCreateRequest shopifyFulfillmentCreateRequest) {
+		final ShopifyFulfillmentRequestRoot shopifyFulfillmentRequestRoot = new ShopifyFulfillmentRequestRoot();
+		shopifyFulfillmentRequestRoot.setFulfillment(shopifyFulfillmentCreateRequest);
+		final Response response = post(getWebTarget().path(FULFILLMENTS), shopifyFulfillmentRequestRoot);
+		final ShopifyFulfillmentRoot shopifyFulfillmentOrderRootResponse = response.readEntity(ShopifyFulfillmentRoot.class);
+		return shopifyFulfillmentOrderRootResponse.getFulfillment();
+	}
+
 	public ShopifyFulfillment updateFulfillment(final ShopifyFulfillmentUpdateRequest shopifyFulfillmentUpdateRequest) {
 		final ShopifyFulfillmentRoot shopifyFulfillmentRoot = new ShopifyFulfillmentRoot();
 		final ShopifyFulfillment shopifyFulfillment = shopifyFulfillmentUpdateRequest.getRequest();
@@ -737,6 +747,12 @@ public class ShopifySdk {
 				.path(shopifyFulfillment.getId()), shopifyFulfillmentRoot);
 		final ShopifyFulfillmentRoot shopifyFulfillmentRootResponse = response.readEntity(ShopifyFulfillmentRoot.class);
 		return shopifyFulfillmentRootResponse.getFulfillment();
+	}
+
+	public List<ShopifyFulfillmentOrder> getFulfillmentOrder(final String orderId) {
+		final Response response = get(buildOrdersEndpoint().path(orderId).path(FULFILLMENT_ORDERS));
+		final ShopifyFulfillmentOrderRoot shopifyFulfillmentOrderRoot = response.readEntity(ShopifyFulfillmentOrderRoot.class);
+		return shopifyFulfillmentOrderRoot.getFulfillmentOrders();
 	}
 
 	public ShopifyOrder createOrder(final ShopifyOrderCreationRequest shopifyOrderCreationRequest) {
@@ -825,6 +841,13 @@ public class ShopifySdk {
 		final Response response = post(
 				buildOrdersEndpoint.path(orderId).path(FULFILLMENTS).path(fulfillmentId).path(CANCEL),
 				new ShopifyFulfillment());
+		final ShopifyFulfillmentRoot shopifyFulfillmentRootResponse = response.readEntity(ShopifyFulfillmentRoot.class);
+		return shopifyFulfillmentRootResponse.getFulfillment();
+	}
+
+	public ShopifyFulfillment cancelFulfillment(final String fulfillmentId) {
+		final WebTarget buildOrdersEndpoint = buildOrdersEndpoint();
+		final Response response = post(getWebTarget().path(FULFILLMENTS).path(fulfillmentId).path(CANCEL), new ShopifyFulfillment());
 		final ShopifyFulfillmentRoot shopifyFulfillmentRootResponse = response.readEntity(ShopifyFulfillmentRoot.class);
 		return shopifyFulfillmentRootResponse.getFulfillment();
 	}
@@ -1114,7 +1137,11 @@ public class ShopifySdk {
 		final Retryer<Response> retryer = buildResponseRetyer();
 		try {
 			return retryer.call(responseCallable);
-		} catch (ExecutionException | RetryException e) {
+		} catch (ExecutionException e) {
+			LOGGER.error("ExecutionException ERROR:" + e.getMessage());
+			throw new ShopifyClientException(RETRY_FAILED_MESSAGE, e);
+		} catch (RetryException e) {
+			LOGGER.error("RetryException ERROR:" + e.getMessage());
 			throw new ShopifyClientException(RETRY_FAILED_MESSAGE, e);
 		}
 	}
