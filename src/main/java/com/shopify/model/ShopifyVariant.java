@@ -59,8 +59,8 @@ public class ShopifyVariant {
 	private String fulfillmentService;
 	@XmlElement(name = "requires_shipping")
 	@JsonProperty(value = "requires_shipping")
-	private boolean requiresShipping;
-	private boolean taxable;
+	private Boolean requiresShipping;
+	private Boolean taxable;
 
 	@XmlElement(name = "inventory_item_id")
 	@JsonProperty(value = "inventory_item_id")
