@@ -575,6 +575,14 @@ public class ShopifySdk {
 		return shopifyProductRootResponse.getProduct();
 	}
 
+	public ShopifyVariant updateVariant(final ShopifyVariant shopifyVariant) {
+		final ShopifyVariantRoot shopifyVariantRootRequest = new ShopifyVariantRoot();
+		shopifyVariantRootRequest.setVariant(shopifyVariant);
+		final Response response = put(getWebTarget().path(VARIANTS).path(shopifyVariant.getId()), shopifyVariantRootRequest);
+		final ShopifyVariantRoot shopifyVariantRootResponse = response.readEntity(ShopifyVariantRoot.class);
+		return shopifyVariantRootResponse.getVariant();
+	}
+
 	public ShopifyVariant updateVariant(final ShopifyVariantUpdateRequest shopifyVariantUpdateRequest) {
 		final ShopifyVariant shopifyVariant = shopifyVariantUpdateRequest.getRequest();
 		final String shopifyVariantId = shopifyVariant.getId();
