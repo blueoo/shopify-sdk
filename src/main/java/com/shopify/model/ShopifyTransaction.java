@@ -42,6 +42,8 @@ public class ShopifyTransaction {
 	private String sourceName;
 	private String status;
 	private Boolean test;
+	@XmlElement(name = "payment_id")
+	private String paymentId;
 
 	public String getId() {
 		return id;
@@ -169,5 +171,13 @@ public class ShopifyTransaction {
 
 	public void setTest(Boolean test) {
 		this.test = test;
+	}
+
+	public String getPaymentId() {
+		return paymentId;
+	}
+
+	public void setPaymentId(String paymentId) {
+		this.paymentId = paymentId;
 	}
 }
