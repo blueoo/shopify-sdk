@@ -970,6 +970,12 @@ public class ShopifySdk {
 
 	}
 
+	public ShopifyRefund getRefund(final String orderId, final String refundId) {
+		final Response response = get(buildOrdersEndpoint().path(orderId).path(REFUNDS).path(refundId));
+		final ShopifyRefundRoot shopifyRefundRoot = response.readEntity(ShopifyRefundRoot.class);
+		return shopifyRefundRoot.getRefund();
+	}
+
 	/**
 	 * 指定金额进行退款
 	 * @param shopifyRefundCreationRequest
