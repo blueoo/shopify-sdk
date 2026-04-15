@@ -1,9 +1,11 @@
 package com.shopify.exceptions;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +23,31 @@ public class ShopifyErrorCodeFactory {
 
 	public static final List<ShopifyErrorCode> create(final String responseBody) {
 		final List<ShopifyErrorCode> shopifyErrorCodes = new LinkedList<>();
+
+		// 先尝试提取简单错误
+		try {
+			JsonNode node = new ObjectMapper().readTree(responseBody);
+			JsonNode errorsNode = node.get("errors");
+			if (errorsNode != null && errorsNode.isTextual()) {
+				String errorMsg = errorsNode.asText();
+
+				ShopifyErrorCode shopifyErrorCode = null;
+				switch (errorMsg) {
+					case "Not Found": //店铺不存在
+						shopifyErrorCode = new ShopifyErrorCode(ShopifyErrorCode.Type.NOT_FOUND, errorMsg);
+						break;
+					case "[API] Invalid API key or access token (unrecognized login or wrong password)":
+						shopifyErrorCode = new ShopifyErrorCode(ShopifyErrorCode.Type.TOKEN_ERROR, errorMsg);
+						break;
+					default:
+						shopifyErrorCode = new ShopifyErrorCode(ShopifyErrorCode.Type.UNKNOWN, errorMsg);
+						break;
+				}
+				shopifyErrorCodes.add(shopifyErrorCode);
+				return shopifyErrorCodes;
+			}
+		} catch (IOException ignored) {}
+
 		try {
 			final ObjectMapper objectMapper = ShopifySdkObjectMapper.buildMapper();
 

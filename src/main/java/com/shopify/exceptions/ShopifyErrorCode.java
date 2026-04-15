@@ -7,7 +7,7 @@ public class ShopifyErrorCode implements Serializable {
 	private static final long serialVersionUID = -3870975240510101019L;
 
 	public enum Type implements Serializable {
-		SHIPPING_ADDRESS, UNKNOWN
+		SHIPPING_ADDRESS, UNKNOWN, NOT_FOUND,TOKEN_ERROR
 	}
 
 	private final Type type;
