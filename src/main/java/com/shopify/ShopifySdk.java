@@ -475,6 +475,12 @@ public class ShopifySdk {
 		return count.getCount();
 	}
 
+	public int getOrderCount() {
+		final Response response = get(getWebTarget().path(ORDERS).path(COUNT));
+		final Count count = response.readEntity(Count.class);
+		return count.getCount();
+	}
+
 	public ShopifyPage<ShopifyCustomCollection> getCustomCollections(final int pageSize) {
 		final Response response = get(
 				getWebTarget().path(CUSTOM_COLLECTIONS).queryParam(LIMIT_QUERY_PARAMETER, pageSize));
