@@ -107,6 +107,8 @@ public class ShopifySdk {
 	private static final String CLIENT_ID = "client_id";
 	private static final String CLIENT_SECRET = "client_secret";
 	private static final String AUTHORIZATION_CODE = "code";
+	private static final String GRANT_TYPE = "grant_type";
+	private static final String CLIENT_CREDENTIALS_GRANT_TYPE = "client_credentials";
 
 	private static final int DEFAULT_REQUEST_LIMIT = 50;
 	private static final int TOO_MANY_REQUESTS_STATUS_CODE = 429;
@@ -118,6 +120,7 @@ public class ShopifySdk {
 	private static final String RETRY_FAILED_MESSAGE = "Request retry has failed.";
 	private static final String DEPRECATED_SHOPIFY_CALL_ERROR_MESSAGE = "Shopify call is deprecated. Please take note of the X-Shopify-API-Deprecated-Reason and correct the call.\nRequest Location of {}\nResponse Status Code of {}\nResponse Headers of:\n{}";
 	static final String GENERAL_ACCESS_TOKEN_EXCEPTION_MESSAGE = "There was a problem generating access token using shop subdomain of %s and authorization code of %s.";
+	static final String GENERAL_ACCESS_TOKEN_CLIENT_CREDENTIALS_EXCEPTION_MESSAGE = "There was a problem generating access token using client credentials grant with shop subdomain of %s.";
 
 	private static final String REFUND_AMOUNT_LT_MAXIMUM_REFUNDABLE = "可退款金额不够，请检查退款金额是否填写正确！";
 
@@ -395,6 +398,11 @@ public class ShopifySdk {
 		} catch (final ShopifyErrorResponseException e) {
 			return false;
 		}
+	}
+
+	public String refreshAccessToken() {
+		this.accessToken = generateToken();
+		return this.accessToken;
 	}
 
 	public ShopifyProduct getProduct(final String productId) {
@@ -1206,6 +1214,13 @@ public class ShopifySdk {
 	}
 
 	private String generateToken() {
+		if (StringUtils.isNotBlank(this.authorizationToken)) {
+			return generateTokenWithAuthorizationCode();
+		}
+		return generateTokenWithClientCredentials();
+	}
+
+	private String generateTokenWithAuthorizationCode() {
 		try {
 
 			final Entity<String> entity = Entity.entity(EMPTY_STRING, MediaType.APPLICATION_JSON);
@@ -1224,6 +1239,30 @@ public class ShopifySdk {
 		} catch (final Exception e) {
 			throw new ShopifyClientException(
 					String.format(GENERAL_ACCESS_TOKEN_EXCEPTION_MESSAGE, shopSubdomain, this.authorizationToken), e);
+		}
+	}
+
+	private String generateTokenWithClientCredentials() {
+		try {
+			final Map<String, String> requestBody = new HashMap<>();
+			requestBody.put(CLIENT_ID, this.clientId);
+			requestBody.put(CLIENT_SECRET, this.clientSecret);
+			requestBody.put(GRANT_TYPE, CLIENT_CREDENTIALS_GRANT_TYPE);
+
+			final Entity<Map<String, String>> entity = Entity.entity(requestBody, MediaType.APPLICATION_JSON);
+			final Response response = this.getUnversionedWebTarget().path(OAUTH).path(ACCESS_TOKEN)
+					.request(MediaType.APPLICATION_JSON).post(entity);
+
+			final int status = response.getStatus();
+
+			if (Status.OK.getStatusCode() == status) {
+				final ShopifyAccessTokenRoot shopifyResponse = response.readEntity(ShopifyAccessTokenRoot.class);
+				return shopifyResponse.getAccessToken();
+			}
+			throw new ShopifyErrorResponseException(response);
+		} catch (final Exception e) {
+			throw new ShopifyClientException(
+					String.format(GENERAL_ACCESS_TOKEN_CLIENT_CREDENTIALS_EXCEPTION_MESSAGE, shopSubdomain), e);
 		}
 	}
 
